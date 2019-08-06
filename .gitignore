@@ -4,11 +4,16 @@
 /dist
 /tmp
 /out-tsc
+.firebase
+firebase-debug.log
 # Only exists if Bazel was run
 /bazel-out
 
 # dependencies
 /node_modules
+
+#project files
+/src/environments
 
 # profiling files
 chrome-profiler-events.json
@@ -44,3 +49,9 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+.firebaserc
+firebase.json
+serviceAccountKey.json
+account_file.json
+src/assets/crm-rci.json
+database
