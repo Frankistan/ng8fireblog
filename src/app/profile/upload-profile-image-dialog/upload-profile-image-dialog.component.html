@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>{{ "dialog.avatar.title" | translate }}</h2>
+<mat-dialog-content>
+    <input type="file" (change)="fileChangeEvent($event)" />
+
+    <image-cropper
+        [ngClass]="{'visible': show}"
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="aspectRatio"
+        [resizeToWidth]="resizeToWidth"
+        format="jpeg"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+        (loadImageFailed)="loadImageFailed()"
+    ></image-cropper>
+
+    <img [src]="croppedImage" />
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button (click)="onNoClick()" tabindex="-1" color="warn">
+        {{ "dialog.action.cancel" | translate }}
+    </button>
+    <button mat-button [mat-dialog-close]="data" tabindex="2">
+        {{ "dialog.action.upload" | translate }}
+    </button>
+</mat-dialog-actions>

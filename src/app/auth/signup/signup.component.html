@@ -1,0 +1,72 @@
+<form 
+    autocomplete="off" 
+    novalidate 
+    [formGroup]="signupForm" 
+    (submit)="signup()" >
+    <mat-card-content>
+        <mat-form-field>
+            <input autofocus matInput [placeholder]="'auth.input.name' | translate" name="displayName" formControlName="displayName">
+            <mat-error *ngIf="signupForm.get('displayName').hasError('required') &&  (signupForm.get('displayName').dirty || signupForm.get('displayName').touched)">
+                {{ 'validation.required' | translate }}
+            </mat-error>
+            <mat-error *ngIf="signupForm.get('displayName').hasError('minlength') && signupForm.get('displayName').touched">
+                {{ 'validation.minlength' | translate }}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput [placeholder]="'auth.input.email' | translate" name="email" formControlName="email">
+            <mat-error *ngIf="signupForm.get('email').hasError('email') &&  (signupForm.get('email').dirty || signupForm.get('email').touched)">
+                {{ 'validation.email' | translate }}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput [placeholder]="'auth.input.password' | translate" name="password" formControlName="password" [type]="hide ? 'password' : 'text'"
+            />
+            <mat-error *ngIf="signupForm.get('password').hasError('required') &&  (signupForm.get('password').dirty || signupForm.get('password').touched)">
+                {{ 'validation.required' | translate }}
+            </mat-error>
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput [placeholder]="'auth.input.password_confirm' | translate" name="password_confirm" formControlName="password_confirm"
+                [type]="hide ? 'password' : 'text'" />
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+            <mat-error *ngIf="signupForm.get('password_confirm').hasError('required') &&  (signupForm.get('password_confirm').dirty || signupForm.get('password_confirm').touched)">
+                {{ 'validation.required' | translate }}
+            </mat-error>
+            <mat-error *ngIf="signupForm.get('password_confirm').hasError('MatchPassword')">
+                {{ 'validation.pwd_match' | translate }}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput [placeholder]="'auth.input.img_url' | translate" name="photoURL" formControlName="photoURL" #imageURL>
+            <mat-error *ngIf="signupForm.get('photoURL').hasError('pattern')">
+                {{ 'validation.invalid-url' | translate }}
+            </mat-error>
+        </mat-form-field>
+
+        <img *ngIf="imageURL.value" mat-card-image [src]="imageURL.value" class="image-url">
+
+        <ngx-recaptcha2 #captchaElem
+            (expire)="handleExpire()"
+            (load)="handleLoad()"
+            (success)="handleSuccess($event)"
+            [size]="size" 
+            [hl]="i18n.language" 
+            [theme]="theme" 
+            [type]="type"
+            formControlName="recaptcha" name="recaptcha"
+            [siteKey]="siteKey">
+        </ngx-recaptcha2>
+
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <button type="submit" color="primary" mat-raised-button [disabled]="!signupForm.valid &&( signupForm.dirty || signupForm.untouched)">
+            {{ 'auth.register.button' | translate }}
+        </button>
+    </mat-card-actions>
+</form>

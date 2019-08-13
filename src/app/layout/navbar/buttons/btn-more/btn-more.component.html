@@ -1,0 +1,45 @@
+<button mat-icon-button fxHide.gt-xs
+    matTooltip="{{ 'tooltips.more' | translate }}"
+    [matTooltipClass]="'tooltip'"
+    [matMenuTriggerFor]="postListMenu">
+    <mat-icon>more_vert</mat-icon>
+</button>
+
+<mat-menu #postListMenu="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="sortingMenu">{{ 'navbar.more.sorting' | translate }}</button>
+    <button mat-menu-item (click)="filterNavRef.toggle()">{{ 'navbar.more.filters' | translate }}</button>
+    <button mat-menu-item [matMenuTriggerFor]="viewsMenu">{{ 'navbar.more.show' | translate }}</button>
+</mat-menu>
+
+<mat-menu #sortingMenu="matMenu">
+    <button mat-menu-item (click)="orderBy('created_at')" [ngClass]="{ 'mat-list-item active' : field=='created_at' }">
+        {{ 'navbar.sort-by.date' | translate }}
+        <mat-icon>
+            {{ (field =="created_at" && reverse ) ? 'arrow_drop_down' : 'arrow_drop_up'}}
+        </mat-icon>
+    </button>
+    <button mat-menu-item (click)="orderBy('title')" [ngClass]="{ 'mat-list-item active' : field=='title' }">
+        {{ 'navbar.sort-by.title' | translate }}
+        <mat-icon>
+            {{ (field =="originalName" && reverse ) ? 'arrow_drop_up' : 'arrow_drop_down'}}
+        </mat-icon>
+    </button>
+</mat-menu>
+
+<mat-menu #viewsMenu="matMenu">
+    <button (click)="changeView(true)" mat-menu-item>{{ 'navbar.more.view-list' | translate }}</button>
+    <button (click)="changeView(false)" mat-menu-item>{{ 'navbar.more.view-grid' | translate }}</button>
+</mat-menu>
+
+<ng-template [ngIf]="id$|async">
+    <button mat-button fxHide.xs (click)="openDeleteDlg()">{{ 'navbar.more.delete' | translate }}</button>
+    <button mat-icon-button fxHide.gt-xs
+        matTooltip="{{ 'tooltips.more' | translate }}"
+        [matTooltipClass]="'tooltip'"
+        [matMenuTriggerFor]="deletePostMenu">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+</ng-template>
+<mat-menu #deletePostMenu="matMenu">
+    <button mat-menu-item  (click)="openDeleteDlg()">{{ 'navbar.more.delete' | translate }}</button>
+</mat-menu>

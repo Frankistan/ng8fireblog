@@ -1,0 +1,22 @@
+<mat-toolbar color="primary">
+    <a routerLink="/profile" *ngIf="user$ | async; let user;">
+        <div fxFlex="30" fxLayoutAlign="center center" [@scaleAnimation]>
+            <img fxLayout="column" 
+                fxFlexAlign="center"
+                class="mat-card-avatar sidenav-user-image"
+                *ngIf="user.photoURL" 
+                [src]="user.photoURL" />
+            <ngx-avatar 
+                size="55" 
+                *ngIf="!user.photoURL" 
+                matListAvatar 
+                [name]="user.displayName?.split(' ', 2).join(' ')" 
+                round="true">
+            </ngx-avatar>
+        </div>
+        <div fxLayout="column" fxFlexAlign="center" [@slideUpFadeIn] class="user-data">
+            <span class="ellipsis mat-card-title">{{ user.displayName }}</span>
+            <span class="ellipsis mat-card-subtitle">{{ user.email }}</span>
+        </div>
+    </a>
+</mat-toolbar>

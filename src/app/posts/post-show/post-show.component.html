@@ -1,0 +1,39 @@
+<div fxLayoutAlign="center">
+	<mat-card fxLayout="column" fxFlex="100" fxFlex.sm="65" fxFlex.gt-sm="65" *ngIf="post$ | async; let post;">
+		<mat-card-header>
+			<a [routerLink]="[ '/profile', post.author ]">
+                <img matTooltip="{{ post.authorName }}" 
+                    [matTooltipClass]="'tooltip'"mat-card-avatar 
+                    src="https://material.angular.io/assets/img/examples/shiba1.jpg" />
+            </a>
+
+			<mat-card-title 
+				matTooltip="{{ 'post.go-to-original' | translate }}" 
+				[matTooltipClass]="'tooltip'">
+				<a href="{{ post.url }}" target="_blank">
+                    {{ post.title | uppercase }}
+                </a>
+			</mat-card-title>
+			<mat-card-subtitle>
+				<time>
+					{{ (post.created_at *1000)| amDateFormat: 'DD-MM-YYYY HH:mm' }} 
+					( {{ (post.created_at *1000) | amLocale: locale | amTimeAgo }} )
+                </time>
+			</mat-card-subtitle>
+		</mat-card-header>
+
+		<!-- only displays when this is in viewport -->
+		<img lazySrcVisible="visible" mat-card-image [lazySrc]="post.featured_image && post.featured_image !=''   ? post.featured_image : './../../../assets/img/blog.jpg'" />
+
+		<mat-card-content>
+			<span [innerHTML]="sanitizer.bypassSecurityTrustHtml(post.content)"> </span>
+		</mat-card-content>
+		<mat-divider [inset]="true"></mat-divider>
+		<mat-card-actions align="start">
+			<mat-chip-list>
+				<mat-chip *ngFor="let tag of post.tags">{{ tag.text }}</mat-chip>
+			</mat-chip-list>
+		</mat-card-actions>
+	</mat-card>
+</div>
+<fab-edit-post *ngIf="post$ | async; let post;" [id]="post.id"></fab-edit-post>

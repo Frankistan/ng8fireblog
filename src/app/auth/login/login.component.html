@@ -1,0 +1,65 @@
+<form 
+    autocomplete="off" 
+    novalidate 
+    [formGroup]="loginForm" 
+    (submit)="login()" >
+    <mat-card-content>
+        <mat-card-title>
+            {{ 'auth.login.title' | translate }}
+        </mat-card-title>
+        <mat-form-field>
+            <input autofocus matInput [placeholder]="'auth.input.email' | translate" name="email" formControlName="email">
+            <mat-error>
+                {{ 'validation.email' | translate }}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput [placeholder]="'auth.input.password' | translate" name="password" formControlName="password" [type]="hide ? 'password' : 'text'"
+            />
+            <mat-error>
+                {{ 'validation.required' | translate }}
+            </mat-error>
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+        </mat-form-field>
+
+        <ngx-recaptcha2 #captchaElem
+            (expire)="handleExpire()"
+            (load)="handleLoad()"
+            (success)="handleSuccess($event)"
+            [size]="size"
+            [hl]="i18n.language" 
+            [theme]="theme" 
+            [type]="type"
+            formControlName="recaptcha" name="recaptcha"
+            [siteKey]="siteKey">
+        </ngx-recaptcha2>
+
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <button type="submit" color="primary"
+        mat-raised-button [disabled]="!loginForm.valid &&( loginForm.dirty || loginForm.untouched)">
+            {{ 'auth.login.button' | translate }}
+        </button>
+    </mat-card-actions>
+</form>
+<div fxLayout="row" class="additional-links" fxLayoutAlign="space-between center">
+    <button fxFlex="45" color="primary" routerLink="/auth/signup" mat-button>{{ 'auth.login.register' | translate }}</button>
+    <button fxFlex="45" color="primary" routerLink="/auth/reset-password" mat-button>{{ 'auth.login.forgotten_pwd' | translate }}</button>
+</div>
+<mat-divider [inset]="true"></mat-divider>
+
+<div fxLayout="row" fxLayoutAlign="space-between center">
+    <button fxFlex="30" mat-raised-button (click)="socialLogin('google')">
+        <i class="fab fa-google-plus-g"></i>
+        <span fxHide.lt-md="true">Google</span>
+    </button>
+    <button fxFlex="30" mat-raised-button (click)="socialLogin('facebook')">
+        <i class="fab fa-facebook"></i>
+        <span fxHide.lt-md="true">Facebook</span>
+    </button>
+    <button fxFlex="30" mat-raised-button (click)="socialLogin('github')">
+        <i class="fab fa-github"></i>
+        <span fxHide.lt-md="true">Github</span>
+    </button>
+</div>

@@ -1,0 +1,23 @@
+<mat-toolbar  class="mat-elevation-z6">
+    <button color="primary" style="align-self: center;" mat-icon-button  (click)="close()">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    <form [formGroup]="searchForm" novalidate autocomplete="off">
+        <mat-form-field color="primary" fxFlex="100" class="search-form-field" floatLabel="never">
+            <input type="text" 
+                matInput 
+                autofocus
+                #sInput
+                [placeholder]="'navbar.search' | translate"
+                formControlName="searchInput" >
+            <button mat-button matSuffix
+                *ngIf="sInput.value"  
+                mat-icon-button 
+                color="primary"
+                aria-label="Clear" 
+                (click)=clear()>
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>              
+    </form>
+</mat-toolbar>

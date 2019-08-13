@@ -1,0 +1,37 @@
+<mat-card fxFlex="100" fxFlex.sm="80" fxFlex.gt-sm="50">
+	<mat-card-header fxLayout="row" fxLayout.xs="column">
+		<a [href]="user.profileURL" target="_blank" fxFlexAlign.xs="center" mat-card-avatar [@scaleAnimation] class="card-header-image" [ngStyle]="{
+				'background-image': 'url(' + user.photoURL + ')'
+			}">
+			<ngx-avatar size="162" matListAvatar *ngIf="!user.photoURL" [name]="user.displayName.split(' ', 2).join(' ')" round="true">
+			</ngx-avatar>
+		</a>
+		<mat-card-title [ngStyle.xs]="{
+				'margin-top.rem': 1,
+				'text-align': 'center'
+			}" class="ellipsis">{{ user.displayName }}</mat-card-title>
+		<mat-card-subtitle class="truncate">{{
+			user.email
+		}}</mat-card-subtitle>
+		<mat-card-subtitle class="lastLogin">
+			<mat-icon>access_time</mat-icon>
+			<span>{{ "profile.lastLogin" | translate }} : </span>
+			<time>{{
+				user.lastSignInTime | amLocale: locale | amTimeAgo
+			}}</time>
+		</mat-card-subtitle>
+		<mat-card-subtitle class="lastLogin" *ngIf="(address$ | async); let address">
+			<mat-icon matTooltip="{{
+					'profile.lastLoginLocation' | translate
+				}}" [matTooltipClass]="'tooltip'">{{
+					address == "" ? "location_off" : "location_on"
+				}}</mat-icon>
+			<span>{{
+					address == ""
+						? ("profile.location_not_available" | translate)
+						: address
+				}}
+			</span>
+		</mat-card-subtitle>
+	</mat-card-header>
+</mat-card>

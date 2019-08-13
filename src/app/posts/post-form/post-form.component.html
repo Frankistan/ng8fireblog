@@ -1,0 +1,59 @@
+<div fxLayoutAlign="center">
+    <mat-card fxLayout="column" fxFlex="100" fxFlex.sm="85" fxFlex.gt-sm="75">
+        <file-upload-dropzone></file-upload-dropzone>
+        <form autocomplete="off" novalidate [formGroup]="postForm" (submit)="save()">
+            <mat-form-field>
+                <input #imageURL matInput [placeholder]="'post.input.featured_image' | translate" name="featured_image" formControlName="featured_image"
+                    #imageURL>
+                <mat-error *ngIf="postForm.get('featured_image').hasError('url')">
+                    {{ 'validation.url' | translate }}
+                </mat-error>
+            </mat-form-field>
+            <figure *ngIf="imageURL.value">
+                <img [src]="imageURL.value">
+                <figcaption fxLayoutAlign="center center">
+                    <button id="myDelButton" mat-fab color="primary" (click)="deleteImage($event,imageURL.value)" aria-label="delete post featured image">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </figcaption>
+            </figure>
+            <mat-card-content>
+                <mat-form-field>
+                    <input autofocus matInput [placeholder]="'post.input.title' | translate" name="title" formControlName="title">
+                    <mat-error>
+                        {{ 'validation.required' | translate }}
+                    </mat-error>
+                </mat-form-field>
+
+                <div>
+                    <tinymce matInput name="content" [config]="options" formControlName="content"></tinymce>
+                </div>
+
+                <mat-form-field formArrayName="tags">
+                    <mat-chip-list #chipList>
+                        <mat-chip *ngFor="let tag of postForm.controls['tags']['controls'] ; let i = index;"
+                            [formGroupName]="i"
+                            [selectable]="selectable"
+                            [removable]="removable"
+                            (removed)="removeTag(i)">
+                            {{tag.value.text}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <input [placeholder]="'post.input.tags' | translate"
+                            [matChipInputFor]="chipList"
+                            [matChipInputAddOnBlur]="addOnBlur"
+                            (matChipInputTokenEnd)="addTag($event)" />
+                    </mat-chip-list>
+                </mat-form-field>
+            </mat-card-content>
+            <div align="end">
+                <button type="submit" color="primary" mat-raised-button [disabled]="postForm.invalid && postForm.dirty">
+                    {{ 'post.input.save' | translate }}
+                </button>
+            </div>
+            <!-- <div>
+                <pre>{{postForm.value | json}}</pre>
+            </div> -->
+        </form>
+    </mat-card>
+</div>

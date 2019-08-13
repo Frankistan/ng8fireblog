@@ -1,0 +1,27 @@
+ mat-card-header {
+ 	flex-direction: row-reverse;
+ }
+
+ mat-card-title a {
+ 	text-decoration: none;
+ }
+
+ .mat-divider {
+ 	width: 100%;
+ 	display: block;
+ 	border-top-style: solid;
+ 	border-top-width: 1px;
+ 	margin: 0.5rem 0;
+ }
+
+ mat-card-content {
+ 	overflow-x: auto;
+ }
+
+ .header-image {
+ 	background-size: cover;
+ }
+
+ .mat-card-image:first-child {
+ 	margin-top: 0;
+ }

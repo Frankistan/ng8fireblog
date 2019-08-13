@@ -1,0 +1,91 @@
+<mat-card>
+    <form
+        autocomplete="off"
+        novalidate
+        [formGroup]="filtersForm"
+        (submit)="save()"
+    >
+        <div fxLayout="row" fxLayoutAlign="space-between stretch">
+            <button
+                fxFlex.gt-xs="45%"
+                type="button"
+                color="primary"
+                mat-button
+                (click)="reset()"
+                fxFlexOrder.gt-xs="2"
+            >
+                <mat-icon fxHide fxShow.xs="true">delete_sweep</mat-icon>
+                <span fxHide.xs="true">{{
+                    "post.filters.reset" | translate
+                }}</span>
+            </button>
+            <button
+                fxFlex.gt-xs="45%"
+                type="submit"
+                color="primary"
+                mat-raised-button
+                fxFlexOrder.gt-xs="1"
+            >
+            <mat-icon fxHide fxShow.xs="true">check</mat-icon>
+                <span fxHide.xs="true">{{ "post.filters.save" | translate }}</span>
+                
+            </button>
+        </div>
+        <mat-card-content fxLayout="column">
+            <mat-divider></mat-divider>
+            <mat-radio-group formControlName="author" fxLayout="column">
+                <mat-radio-button value="" checked>
+                    {{ "post.filters.all-authors" | translate }}
+                </mat-radio-button>
+                <mat-radio-button
+                    [value]="author.uid"
+                    *ngFor="let author of authors; let i = index"
+                    >{{ author.displayName }}
+                </mat-radio-button>
+            </mat-radio-group>
+
+            <p>
+                <mat-form-field class="example-full-width">
+                    <input
+                        matInput
+                        [matDatepickerFilter]="myFilter"
+                        [matDatepicker]="begin_date"
+                        [min]="minimum"
+                        [max]="maximum"
+                        placeholder="{{
+                            'post.filters.begin-date' | translate
+                        }} "
+                        formControlName="minDate"
+                    />
+                    <mat-datepicker-toggle
+                        matSuffix
+                        [for]="begin_date"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #begin_date></mat-datepicker>
+                </mat-form-field>
+            </p>
+
+            <p>
+                <mat-form-field class="example-full-width">
+                    <input
+                        matInput
+                        [matDatepickerFilter]="myFilter"
+                        [matDatepicker]="end_date"
+                        [min]="minimum"
+                        [max]="maximum"
+                        placeholder="{{ 'post.filters.end-date' | translate }} "
+                        formControlName="maxDate"
+                    />
+                    <mat-datepicker-toggle
+                        matSuffix
+                        [for]="end_date"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #end_date></mat-datepicker>
+                </mat-form-field>
+            </p>
+        </mat-card-content>
+        <!-- <mat-card-footer>
+            <pre>{{ filtersForm.value | json }}</pre>
+        </mat-card-footer> -->
+    </form>
+</mat-card>

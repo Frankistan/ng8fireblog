@@ -1,0 +1,35 @@
+.sidenav-content {
+    overflow-y: auto;
+    margin-top: 108px;
+    width: 100%;
+}
+
+mat-nav-list .mat-icon {
+    color: rgb(136, 136, 136);
+    margin-right: 1.5rem;
+}
+
+mat-nav-list .mat-list-item.active {
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, .1);
+}
+
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+    box-shadow: 0 0 0;
+}
+
+mat-expansion-panel-header {
+    padding: 0 1rem;
+}
+
+mat-panel-title {
+    line-height: 48px;
+}
+
+mat-panel-title>mat-icon {
+    line-height: 2;
+}
+
+.mat-expansion-panel-spacing {
+    margin: 0;
+}

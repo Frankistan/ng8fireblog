@@ -1,0 +1,4 @@
+<div fxLayout="row" fxLayoutAlign="center" *ngIf="(user$ | async); let user">
+	<app-profile-email (changed)="this.changed= $event" (saved)="this.saved=$event"  fxLayoutAlign="center" [user]="user" *ngIf="user.providerId == 'password'"></app-profile-email>
+	<app-profile-social fxLayoutAlign="center" [user]="user" *ngIf="user.providerId != 'password'"></app-profile-social>
+</div>

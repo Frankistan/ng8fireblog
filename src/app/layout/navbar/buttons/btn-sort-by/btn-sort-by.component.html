@@ -1,0 +1,25 @@
+<button mat-icon-button
+    fxHide.xs
+    matTooltip="{{ 'tooltips.sort-by' | translate }}"
+    [matTooltipClass]="'tooltip'"
+    [matMenuTriggerFor]="sortMenu">
+    <mat-icon>sort</mat-icon>
+</button>
+<mat-menu #sortMenu="matMenu">
+    <button mat-menu-item
+        (click)="orderBy('created_at')"
+        [ngClass]="{ 'mat-list-item active' : field=='created_at' }">
+        {{ 'navbar.sort-by.date' | translate }}
+        <mat-icon>
+            {{ (field =="created_at" && reverse ) ? 'arrow_drop_down' : 'arrow_drop_up'}}
+        </mat-icon>
+    </button>
+    <button mat-menu-item
+        (click)="orderBy('title')"
+        [ngClass]="{ 'mat-list-item active' : field=='title' }">
+        {{ 'navbar.sort-by.title' | translate }}
+        <mat-icon>
+            {{ (field =="title" && reverse ) ? 'arrow_drop_down' : 'arrow_drop_up'}}
+        </mat-icon>
+    </button>
+</mat-menu>

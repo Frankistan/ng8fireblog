@@ -1,0 +1,129 @@
+<mat-card fxFlex="100" fxFlex.sm="90" fxFlex.gt-sm="50">
+	<mat-card-header fxLayout="row" fxLayout.xs="column">
+		<div fxFlexAlign.xs="center" mat-card-avatar (click)="openUploadAvatarDlg()" [@scaleAnimation] class="card-header-image" [ngStyle]="{
+				'background-image': 'url(' + user.photoURL + ')'
+			}">
+			<ngx-avatar size="162" matListAvatar *ngIf="!user.photoURL" [name]="user.displayName.split(' ', 2).join(' ')" round="true">
+			</ngx-avatar>
+		</div>
+		<mat-card-title [ngStyle.xs]="{
+				'margin-top.rem': 1,
+				'text-align': 'center'
+			}" class="ellipsis">{{ user.displayName }}</mat-card-title>
+		<mat-card-subtitle class="ellipsis">{{
+			user.email
+		}}</mat-card-subtitle>
+		<mat-card-subtitle class="ellipsis lastLogin">
+			<mat-icon fxHide.gt-xs matTooltip="{{ 'profile.employeeId' | translate }}" [matTooltipClass]="'tooltip'">assignment_ind</mat-icon>
+			<span fxHide.xs>{{ "profile.employeeId" | translate }} :
+			</span>
+			{{ user.employeeId }}
+		</mat-card-subtitle>
+		<mat-card-subtitle class="ellipsis lastLogin">
+			<mat-icon fxHide.gt-xs matTooltip="{{ 'profile.workPlace' | translate }}" [matTooltipClass]="'tooltip'">work</mat-icon>
+			<span fxHide.xs>{{ "profile.workPlace" | translate }} :
+			</span>
+			{{ user.workPlace }}
+		</mat-card-subtitle>
+		<mat-card-subtitle>
+			<span>PS : </span> {{ user.ps }}
+		</mat-card-subtitle>
+		<mat-card-subtitle class="lastLogin">
+			<mat-icon fxHide.gt-xs matTooltip="{{ 'profile.lastLogin' | translate }}" [matTooltipClass]="'tooltip'">access_time</mat-icon>
+			<span fxHide.xs>{{ "profile.lastLogin" | translate }} :
+			</span>
+			<time>{{
+				user.lastSignInTime | amLocale: locale | amTimeAgo
+			}}</time>
+		</mat-card-subtitle>
+		<mat-card-subtitle class="lastLogin" *ngIf="(address$ | async); let address">
+			<mat-icon fxHide.gt-xs matTooltip="{{
+					'profile.lastLoginLocation' | translate
+				}}" [matTooltipClass]="'tooltip'">{{
+					address == "" ? "location_off" : "location_on"
+				}}</mat-icon>
+			<span>{{
+					address == ""
+						? ("profile.location_not_available" | translate)
+						: address
+				}}
+			</span>
+		</mat-card-subtitle>
+	</mat-card-header>
+	<form *ngIf="user.uid" autocomplete="off" novalidate [formGroup]="profileForm" (submit)="save()">
+		<mat-card-content style="margin-top: 2em;">
+			<mat-form-field>
+				<input matInput [placeholder]="'auth.input.name' | translate" name="displayName" formControlName="displayName" />
+				<mat-error>
+					{{ "validation.required" | translate }}
+				</mat-error>
+				<mat-error *ngIf="
+						profileForm
+							.get('displayName')
+							.hasError('minlength') &&
+						profileForm.get('displayName').touched
+					">
+					{{ "validation.minlength" | translate }}
+				</mat-error>
+			</mat-form-field>
+			<mat-form-field>
+				<input matInput [placeholder]="'auth.input.email' | translate" name="email" formControlName="email" />
+			</mat-form-field>
+			<button class="password-toogle" type="button" (click)="togglePasswordFields()" mat-button>
+				{{ "profile.input.change_password" | translate }}
+			</button>
+
+			<mat-form-field *ngIf="showFields">
+				<input matInput [placeholder]="
+						'profile.input.new_password' | translate
+					" name="password" formControlName="password" [type]="hide ? 'password' : 'text'" />
+				<mat-icon matSuffix (click)="hide = !hide">{{
+					hide ? "visibility" : "visibility_off"
+				}}</mat-icon>
+				<mat-error *ngIf="
+						profileForm
+							.get('password')
+							.hasError('minlength')
+					">
+					{{ "validation.minlength" | translate }}
+				</mat-error>
+			</mat-form-field>
+			<mat-form-field *ngIf="showFields">
+				<input matInput [placeholder]="
+						'profile.input.new_password_confirm' | translate
+					" name="password_confirm" formControlName="password_confirm" [type]="hide ? 'password' : 'text'" />
+				<mat-icon matSuffix (click)="hide = !hide">{{
+					hide ? "visibility" : "visibility_off"
+				}}</mat-icon>
+				<mat-error *ngIf="
+						profileForm
+							.get('password_confirm')
+							.hasError('MatchPassword')
+					">
+					{{ "validation.pwd_match" | translate }}
+				</mat-error>
+			</mat-form-field>
+			<mat-form-field>
+				<input matInput [placeholder]="'auth.input.img_url' | translate" name="photoURL" formControlName="photoURL" #imageURL />
+				<mat-error *ngIf="profileForm.get('photoURL').hasError('url')">
+					{{ "validation.url" | translate }}
+				</mat-error>
+			</mat-form-field>
+			<figure *ngIf="imageURL.value">
+				<img mat-card-image [src]="imageURL.value" />
+				<figcaption fxLayoutAlign="center center">
+					<button mat-fab color="primary" id="myDelButton" (click)="
+							deleteProfileImg($event, imageURL.value)
+						" aria-label="delete profile image">
+						<mat-icon>close</mat-icon>
+					</button>
+				</figcaption>
+			</figure>
+		</mat-card-content>
+		<mat-card-actions align="end">
+			<button type="submit" color="primary" mat-raised-button [disabled]="profileForm.invalid && profileForm.dirty">
+				{{ "profile.input.save_changes" | translate }}
+			</button>
+		</mat-card-actions>
+	</form>
+</mat-card>

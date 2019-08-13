@@ -1,0 +1,16 @@
+mat-card-actions{
+    padding: 0;
+    padding-right: 1rem;
+}
+
+mat-form-field {
+    width: 100%;
+    margin: 0.25rem 0;
+}
+
+.image-url {
+    max-height: 300px;
+    max-width: 300px;
+    display: flex;
+    margin: 0 auto;
+}

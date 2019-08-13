@@ -1,0 +1,16 @@
+<div fxLayoutAlign="center" fxLayout="column">
+    <mat-card fxLayout="column"  fxFlex="100" fxFlex.sm="80" fxFlex.gt-sm="55">
+        <ngx-slick-carousel fxFlexAlign="center"
+            class="carousel"
+            #slickModal="slick-carousel"
+            [config]="slideConfig"
+            (init)="slickInit($event)"
+            (breakpoint)="breakpoint($event)"
+            (afterChange)="afterChange($event)"
+            (beforeChange)="beforeChange($event)">
+            <div ngxSlickItem *ngFor="let slide of slides" class="slide mytest">
+                <img src="{{ slide.img }}" alt="" width="100%" />
+            </div>
+        </ngx-slick-carousel>
+    </mat-card>
+</div>

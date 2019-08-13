@@ -1,0 +1,36 @@
+mat-card-actions {
+    padding: 0;
+    padding-right: 1rem;
+}
+
+mat-form-field {
+    width: 100%;
+    margin: 0.25rem 0;
+}
+
+mat-divider {
+    margin-bottom: 1rem !important;
+}
+
+.additional-links {
+    margin: 1rem 0;
+}
+
+.icon-img {
+    height: 2rem;
+}
+
+.fab {
+    font-size: 1.7rem;
+    margin-right: 2px;
+}
+
+.fa-google-plus-g {
+    color: #FF4131;
+}
+.fa-facebook {
+    color:#4267B2;
+}
+.fa-github {
+    color: #735C0F;
+}

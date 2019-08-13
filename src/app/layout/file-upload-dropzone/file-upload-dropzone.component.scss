@@ -1,0 +1,41 @@
+.dropzone {
+    font-weight: 200;
+    height: 30vh;
+    border: 2px dashed #f16624;
+    border-radius: 5px;
+    background: white;
+    margin-bottom: 1rem;
+    &.hovering {
+        border: 2px solid #f16624;
+        color: #dadada !important;
+    }
+    button {
+        margin: 0.3rem 0;
+        span{
+            margin-left: 0.2rem;
+        }
+    }
+    h3 {
+        color: gray;
+        margin: 0.3rem 0;
+    }
+    input[type='file'] {
+        display: none;
+    }
+}
+
+.upload-status {
+    margin: 0.4rem 0;
+}
+
+mat-progress-bar::-webkit-progress-value {
+    transition: width 0.1s ease;
+}
+
+// progress::-webkit-progress-value {
+//     transition: width 0.1s ease;
+// }
+
+.uploaded-img img{
+    width: 100%;
+}

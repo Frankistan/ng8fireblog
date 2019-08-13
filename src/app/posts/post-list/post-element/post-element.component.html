@@ -1,0 +1,39 @@
+<mat-card
+    class="animated slideInUp"
+    fxFlex.sm="85"
+    fxFlex.gt-sm="75">
+    <a
+        class="anchor-list-element"
+        [routerLink]="['/posts', post.id]">
+        <div
+            fxLayoutAlign="start center"
+            fxLayout="row">
+            <div 
+                fxLayoutAlign="start center"
+                fxLayout="column">
+                <ngx-avatar size="52" fxFlex 
+                    [ngClass]="{'grid-view': !(mode$|async)}" 
+                    [name]="post.title?.split(' ', 2).join(' ')"
+                    [round]="mode$|async">
+                </ngx-avatar>
+            </div>
+            <div class="list-content"
+                fxLayoutAlign="start start"
+                fxLayout="column">
+                <h4 class="app-line ellipsis">
+                    {{  post.title }}
+                </h4>
+                <p class="app-line">
+                    <mat-icon class="custom-icon">access_time</mat-icon>
+                    <time class="margin-right-1">{{
+                        post.created_at * 1000 | amDateFormat: "DD-MM-YYYY HH:mm"
+                    }}</time>
+                    <mat-icon class="custom-icon">person</mat-icon>
+                    <span class="margin-right-1">
+                        {{ post.authorName }}
+                    </span>
+                </p>
+            </div>                      
+        </div>
+    </a>
+</mat-card>

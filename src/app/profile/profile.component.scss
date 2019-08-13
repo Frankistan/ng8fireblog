@@ -1,0 +1,100 @@
+mat-card {
+    .card-header-image {
+        background-size: cover;
+        border: 1px solid grey;
+        cursor: pointer;
+        height: 10rem;
+        width: 10rem;
+    }
+
+    mat-form-field {
+        width: 100%;
+    }
+
+    mat-card-subtitle.lastLogin {
+        display: flex;
+        align-items: center;
+        mat-icon {
+            margin-right: 0.3rem;
+            font-size: 1.3rem;
+            line-height: 1.5rem;
+        }
+    }
+
+    button.password-toogle {
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+}
+
+h3 {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #a0a0a0;
+}
+
+h4 {
+    padding-bottom: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #a0a0a0;
+}
+
+input[type="file"] {
+    cursor: pointer;
+    height: 25px;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100px;
+}
+
+figure {
+    position: relative;
+    margin: 0;
+    margin-bottom: 1rem;
+    img {
+        display: flex;
+        margin: 0 auto;
+        max-height: 300px;
+        max-width: 100%;
+        width: auto;
+    }
+    &:hover figcaption,
+    &:focus figcaption {
+        opacity: 1;
+    }
+    &:hover #myDelButton,
+    &:focus #myDelButton {
+        animation: shrink_and_rotate 0.5s 1
+            cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    &:hover figcaption .caption-content,
+    &:focus figcaption .caption-content {
+        transform: translate(0px, 0px);
+    }
+}
+
+figcaption {
+    background-color: rgba(63, 97, 132, 0.5);
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    transition: all 300ms ease-in-out;
+    width: 100%;
+}
+
+@keyframes shrink_and_rotate {
+    0% {
+        transform: rotate(-10deg) scale(0.8);
+    }
+
+    80% {
+        transform: rotate(50deg) scale(1.2);
+    }
+
+    100% {
+        transform: rotate(0deg) scale(1);
+    }
+}

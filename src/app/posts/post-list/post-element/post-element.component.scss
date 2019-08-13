@@ -1,0 +1,63 @@
+mat-card {
+    display: flex;
+    height: 4.5rem !important;
+    margin: 0 auto;
+    margin-top: 0.25rem;
+    max-width: calc(100% - 1rem);
+    padding: 0.5rem;
+    transition: all linear 0.2s !important;
+    &:hover,
+    &:focus {
+        transform: scale(1.009, 1.1);
+        -webkit-transform: scale(1.009, 1.1);
+        background-color: #f2f2f2;
+        box-shadow: 2px 5px 10px 5px rgba(36, 36, 36, 0.57);
+    }
+
+    a {
+        &:active,
+        &:focus,
+        &:hover,
+        &:link,
+        &:visited {
+            color: inherit;
+            cursor: pointer;
+            height: 100%;
+            outline-style: none;
+            text-decoration: none;
+            width: 100%;
+        }
+
+        div.list-content{
+            margin-left: 0.5rem;
+        }
+
+        p.app-line{
+            font-size: 0.8rem;
+        }
+
+        .app-line {
+            margin: 0.25rem;
+
+            .custom-icon {
+                color: grey;
+                vertical-align: sub;
+                font-size: 1rem;
+            }
+
+            .margin-right-1 {
+                margin-right: 0.5rem;
+            }
+        }
+    }
+}
+
+.hover{
+    &:hover,
+    &:focus {
+        transform: scale(1.009, 1.1);
+        -webkit-transform: scale(1.009, 1.1);
+        background-color: #f2f2f2;
+        box-shadow: 2px 5px 10px 5px rgba(36, 36, 36, 0.57);
+    }
+}

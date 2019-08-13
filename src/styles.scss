@@ -1,0 +1,104 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* html, body { height: 100%; } */
+
+
+html {
+    height: 100vh;
+    width: 100vw;
+    font-size: 16px;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    border: 0 none;
+
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+mat-sidenav-container {
+    height: 100%;
+    width: 100%;
+
+    mat-sidenav {
+        width: 15rem;
+        box-shadow: 3px 0 6px rgba(0, 0, 0, 0.24);
+    }
+    mat-sidenav-content {
+        background-color: #e8e8e8;
+        height: 100%;
+
+        .content mat-card {
+            margin-top: 0.5rem;
+        }
+    }
+    .mat-grid-tile .avatar-container {
+        width: 100% !important;
+    }
+
+    .mat-tooltip.tooltip {
+        font-size: 0.9rem;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .mat-tooltip.tooltip {
+        font-size: 0.7rem;
+    }
+}
+
+.ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+
+.slick-dots {
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 1rem;
+    bottom: 0 !important;
+    display: inline-flex !important;
+    flex-direction: row;
+    height: 1rem !important;
+    list-style-type: none;
+    margin-top: -1rem !important; 
+    padding: 0.3rem 0;
+    place-content: stretch center;
+    position: relative !important;
+    width: auto !important;
+    li {
+        align-items: center;
+        display: flex !important;
+        height: 0.5rem !important;
+        margin: 0 0.25rem;
+        width: 0.5rem !important;
+    }
+
+    button {
+        background-color: whitesmoke !important;
+        border-radius: 100%;
+        border: none;
+        display: block;
+        height: 0.5rem !important;
+        padding: 0;
+        text-indent: -9999px;
+        width: 0.5rem !important;
+    }
+
+    li.slick-active button {
+        background-color: white;
+        border: 2px solid red;
+        border-radius: 100%;
+    }
+}
+
+.slick-dots li.slick-active button:before,
+.slick-dots li button:before {
+    color: transparent;
+    opacity: 1;
+    font-size: 16px;
+}

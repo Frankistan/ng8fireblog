@@ -1,0 +1,11 @@
+.example-margin {
+    margin: 0 10px;
+}
+
+mat-radio-button {
+    margin: 0.5rem 0;
+}
+
+mat-form-field{
+    width: 100%;
+}

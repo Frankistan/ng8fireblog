@@ -1,0 +1,41 @@
+<form novalidate autocomplete="off" [formGroup]="uploadForm">
+    <div>
+        <div class="dropzone" dropzone fxLayoutAlign="center center" fxLayout="column"
+            (hovered)="toggleHover($event)"
+            (dropped)="startUpload($event)"
+            [class.hovering]="isHovering">
+            <h3 >{{ 'upload.drag_and_drop' | translate }}</h3>
+            <input type="hidden" formControlName="image" name="image" />
+            <input #fileInput class="file-input" type="file" (change)="startUpload($event.target.files)" />
+            <button mat-raised-button color="accent" (click)="fileInput.click()">
+                <mat-icon>folder</mat-icon>
+                <span>{{ 'upload.browse' | translate }}</span>
+            </button>
+        </div>
+    </div>
+    <mat-progress-bar color="accent" mode="determinate" [value]="fmSVC.percentage | async" min="0" max="100">
+    </mat-progress-bar>
+    <div fxLayout="row" class="upload-status">
+
+        <div *ngIf="fmSVC.percentage | async as pct">
+            <span [translate]="'upload.progress'" [translateParams]="{progress: pct | number:'.1-2' }"></span>
+        </div>
+        <span fxFlex></span>
+        <div *ngIf="(fmSVC.snapshot | async) as snap">
+            {{ snap.bytesTransferred | fileSize }} of {{ snap.totalBytes | fileSize }}
+        </div>
+
+
+    </div>
+    <div *ngIf="(fmSVC.snapshot | async) as snap">
+
+        <button mat-mini-fab (click)="(snap?.state === 'paused') ? task.resume(): task.pause()" [disabled]="!(fmSVC.isActive(snap) &&  !fmSVC.isFinished(snap)) || fmSVC.isCancelled">
+            <mat-icon>{{(snap?.state === 'paused') ? 'play_arrow' : 'pause'}}</mat-icon>
+        </button>
+
+        <button mat-mini-fab (click)="task.cancel()" [disabled]="snap?.state === 'paused' || fmSVC.isFinished(snap) || fmSVC.isCancelled">
+            <mat-icon aria-label="stop">stop</mat-icon>
+        </button>
+
+    </div>
+</form>

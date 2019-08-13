@@ -1,0 +1,64 @@
+<mat-nav-list class="sidenav-content">
+	<a mat-list-item routerLinkActive="active" routerLink="/posts">
+		<mat-icon mdListIcon>home</mat-icon>
+		{{ 'sidenav.wall' | translate }}
+	</a>
+	<!-- <mat-accordion>
+      <mat-expansion-panel hideToggle="true">
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  <mat-icon mdListIcon>group</mat-icon>
+                  {{ 'sidenav.corporate' | translate }}
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+          <a mat-list-item routerLinkActive="active" routerLink="/polls">
+              {{ 'sidenav.wall' | translate }}
+          </a>
+      </mat-expansion-panel>
+      <mat-expansion-panel hideToggle="true">
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  <mat-icon mdListIcon>work</mat-icon>
+                  {{ 'sidenav.business' | translate }}
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+          <a mat-list-item routerLinkActive="active" routerLink="/apps">
+              {{ 'sidenav.wall' | translate }}
+          </a>
+      </mat-expansion-panel>
+  </mat-accordion> -->
+
+	<a mat-list-item routerLinkActive="active" routerLink="/apps">
+		<mat-icon mdListIcon>dashboard</mat-icon>
+		{{ 'sidenav.apps' | translate }}
+	</a>
+	<a mat-list-item routerLinkActive="active" routerLink="/documents">
+		<mat-icon mdListIcon>insert_drive_file</mat-icon>
+		{{ 'sidenav.documents' | translate }}
+	</a>
+	<a mat-list-item routerLinkActive="active" routerLink="/polls">
+		<mat-icon mdListIcon>assignment</mat-icon>
+		{{ 'sidenav.polls' | translate }}
+	</a>
+	<a mat-list-item routerLinkActive="active" routerLink="/appointments">
+		<mat-icon mdListIcon>date_range</mat-icon>
+		{{ 'sidenav.appointments' | translate }}
+	</a>
+	<a mat-list-item routerLinkActive="active" routerLink="/feeds">
+		<mat-icon mdListIcon>rss_feed</mat-icon>
+		{{ 'sidenav.feeds' | translate }}
+	</a>
+	<mat-divider></mat-divider>
+	<a mat-list-item routerLinkActive="active" routerLink="/settings">
+		<mat-icon mdListIcon>settings</mat-icon>
+		{{ 'sidenav.settings' | translate }}
+	</a>
+	<a mat-list-item routerLinkActive="active" routerLink="/faq">
+		<mat-icon mdListIcon>help</mat-icon>
+		{{ 'sidenav.help' | translate }}
+	</a>
+	<a mat-list-item (click)="auth.logout();">
+		<mat-icon mdListIcon>power_settings_new</mat-icon>
+		{{ 'sidenav.logout' | translate }}
+	</a>
+</mat-nav-list>
