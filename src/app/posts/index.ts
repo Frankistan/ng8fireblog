@@ -6,5 +6,6 @@ export * from './posts.component';
 export * from './post-show/post-show.component';
 export * from './post-list/grid-view/grid-view.component';
 export * from './post-list/list-view/list-view.component';
+export * from './virtual/virtual.component';
 
 

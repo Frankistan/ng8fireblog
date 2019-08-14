@@ -17,7 +17,6 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { ImageCropperModule } from "ngx-image-cropper";
 import { MomentModule } from "ngx-moment";
 import { NgxCaptchaModule } from "ngx-captcha";
-import { ScrollingModule } from "@angular/cdk/scrolling";
 import { ScrollTrackerModule } from "@nicky-lenaers/ngx-scroll-tracker";
 //COMPONENTS
 import { AppComponent } from "./app.component";
@@ -37,7 +36,6 @@ import { SidenavContentComponent } from "./layout/sidenav/sidenav-content/sidena
 import { SidenavHeaderComponent } from "./layout/sidenav/sidenav-header/sidenav-header.component";
 import { SpinnerComponent } from "./layout/spinner/spinner.component";
 import { WelcomeComponent } from './welcome/welcome.component';
-// import { VirtualInfinityScrollComponent } from './posts/virtual-infinity-scroll/virtual-infinity-scroll.component';
 //DIALOGS
 import { ConfirmDialog } from "./layout/confirm-dialog/confirm-dialog.component";
 import { UploadProfileImageDialog } from "./profile/upload-profile-image-dialog/upload-profile-image-dialog.component";
@@ -84,8 +82,7 @@ import { ProfileSocialComponent } from './profile/profile-social/profile-social.
         UploadProfileImageDialog,
         WelcomeComponent,
         ProfileEmailComponent,
-        ProfileSocialComponent
-        // VirtualInfinityScrollComponent,
+        ProfileSocialComponent,
     ],
     imports: [
 		AppRoutingModule,
@@ -106,10 +103,7 @@ import { ProfileSocialComponent } from './profile/profile-social/profile-social.
         MomentModule,
         NgxCaptchaModule,
         ReactiveFormsModule,
-        ScrollTrackerModule.forRoot(),
-        ScrollingModule,
-        
-        
+        ScrollTrackerModule.forRoot(),     
     ],
     providers: [
         AuthService,
