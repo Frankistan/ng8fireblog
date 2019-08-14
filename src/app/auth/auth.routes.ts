@@ -1,8 +1,6 @@
 import { Routes } from "@angular/router";
 import { extract } from "@app/shared/services/i18n.service";
-import { LoginComponent } from "./login/login.component";
-import { ResetPasswordComponent } from "./reset-password/reset-password.component";
-import { SignupComponent } from "./signup/signup.component";
+import { LoginComponent, SignupComponent, ResetPasswordComponent } from '.';
 
 export const authRoutes: Routes = [
 	{

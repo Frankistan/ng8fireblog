@@ -51,6 +51,7 @@ export class FabScrollToTopComponent {
 		this.sDispatcher.scrolled()
 			.pipe(takeUntil(this.destroy))
 			.subscribe((cdk: CdkScrollable) => {
+				// https://github.com/angular/components/pull/6679
 				// the ScrollDispatcher in not running in the angular update cycle. 
 				// You need to run your changes in a NgZone
 				this.zone.run(() => {

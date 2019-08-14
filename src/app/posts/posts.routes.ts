@@ -1,15 +1,12 @@
 import { Routes } from "@angular/router";
 import { extract } from "@app/shared/services/i18n.service";
-import { PostListComponent, PostFormComponent, PostShowComponent } from ".";
+import { PostFormComponent, PostShowComponent, PostVirtualListComponent } from ".";
 import { DiscardChangesGuard } from "@app/shared/guards/discard-changes.guard";
-import { VirtualComponent } from './virtual/virtual.component';
-
-
 
 export const postsRoutes: Routes = [
 	{
 		path: "",
-		component: VirtualComponent,
+		component: PostVirtualListComponent,
 		data: {
 			title: extract("posts.list"),
 			animation: {

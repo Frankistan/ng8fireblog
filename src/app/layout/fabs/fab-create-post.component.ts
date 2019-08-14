@@ -1,6 +1,4 @@
 import { Component } from "@angular/core";
-import { Router } from "@angular/router";
-import { CoreService } from "@app/shared";
 
 @Component({
     selector: "fab-create-post",
@@ -24,6 +22,4 @@ import { CoreService } from "@app/shared";
         `
     ]
 })
-export class FabCreatePostComponent {
-    // constructor(public core: CoreService) {}
-}
+export class FabCreatePostComponent {}
