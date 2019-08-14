@@ -1,19 +1,19 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, NgZone } from "@angular/core";
 import { slideUp } from "@app/animations/scale.animation";
-import { CoreService } from "@app/shared";
-import { Observable, BehaviorSubject } from "rxjs";
+import { Subject } from "rxjs";
 import {
 	ScrollDispatcher,
-	CdkVirtualScrollViewport
+	CdkVirtualScrollViewport,
+	CdkScrollable
 } from "@angular/cdk/scrolling";
-import { map, tap, distinctUntilChanged } from "rxjs/operators";
+import { takeUntil } from "rxjs/operators";
 
 @Component({
 	selector: "fab-scroll-to-top",
 	template: `
         <button
             [@slideUp]
-			*ngIf="visible$ | async"
+			*ngIf="visible"
             mat-fab
             class="mat-fab-bottom-right"
             (click)="scrollToTop()"
@@ -37,50 +37,56 @@ import { map, tap, distinctUntilChanged } from "rxjs/operators";
 export class FabScrollToTopComponent {
 
 	@Input() viewport: CdkVirtualScrollViewport;
-	visible$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
 	scrollPosition: number = 0;
 	visible: boolean = false;
-	
 
-	constructor(public core: CoreService, public scroll: ScrollDispatcher) {
-		this.scroll.scrolled().pipe(
-			map((v: CdkVirtualScrollViewport) => v.measureScrollOffset()),
-			map(scroll => {
-				switch (true) {
-					case scroll == 0:
-						this.visible = false;
-						break;
-					case scroll > this.scrollPosition:
-						this.visible = false;
-						break;
-					case scroll < this.scrollPosition:
-						this.visible = true;
-						break;
+	destroy = new Subject<any>();
 
-					default:
-						this.visible = false;
-						break;
-				}
+	constructor(
+		private sDispatcher: ScrollDispatcher,
+		private zone: NgZone
+	) {
 
-				this.scrollPosition = scroll;
+		this.sDispatcher.scrolled()
+			.pipe(takeUntil(this.destroy))
+			.subscribe((cdk: CdkScrollable) => {
+				// the ScrollDispatcher in not running in the angular update cycle. 
+				// You need to run your changes in a NgZone
+				this.zone.run(() => {
+					let scroll = cdk.measureScrollOffset('top');
+					switch (true) {
+						case scroll == 0:
+							this.visible = false;
+							break;
+						case scroll > this.scrollPosition:
+							this.visible = false;
+							break;
+						case scroll < this.scrollPosition:
+							this.visible = true;
+							break;
 
-				return this.visible ;
-			}),
-			distinctUntilChanged(),
-			tap( visible => {
-				this.visible$.next(visible);
-			})
-		).subscribe();
+						default:
+							this.visible = false;
+							break;
+					}
+
+					this.scrollPosition = scroll;
+
+				});
+			});
 	}
 
 	scrollToTop() {
-		
+
 		this.viewport.elementRef.nativeElement.scroll({
 			top: 0,
 			left: 0,
 			behavior: "smooth"
 		});
-		this.visible$.next(false);
+	}
+
+	ngOnDestroy(): void {
+		this.destroy.next();
 	}
 }
