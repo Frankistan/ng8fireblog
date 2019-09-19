@@ -1,16 +1,19 @@
-import { Component, ViewChild, AfterViewInit, ChangeDetectorRef } from "@angular/core";
+import { Component, ViewChild, AfterViewInit, ChangeDetectorRef, OnInit } from "@angular/core";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
 import { CoreService, PaginationService } from "@app/shared";
 import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
+import { Store } from "@ngrx/store";
+import { MediaObserver , MediaChange } from "@angular/flex-layout";
+import { AppState } from '@app/store/reducers/app.reducer';
 
 @Component({
 	selector: 'app-post-virtual-list',
 	templateUrl: './post-virtual-list.component.html',
 	styleUrls: ['./post-virtual-list.component.scss'],
 })
-export class PostVirtualListComponent implements AfterViewInit{
+export class PostVirtualListComponent implements OnInit,AfterViewInit{
 	@ViewChild(CdkVirtualScrollViewport, { static: false })
 	viewport: CdkVirtualScrollViewport;
 
@@ -20,17 +23,57 @@ export class PostVirtualListComponent implements AfterViewInit{
 
 	theEnd = false;
 	virtualViewport: CdkVirtualScrollViewport;
+	mode$: Observable<boolean>;
+	isSearchOpened$: Observable<boolean>;
+	rowHeight: string = "240px";
+	cols$: Observable<number>;
 
 	constructor(
 		public core: CoreService,
 		public page: PaginationService,
 		private _bpo: BreakpointObserver,
-		private cd: ChangeDetectorRef
+		private cd: ChangeDetectorRef,
+		private store: Store<AppState>,
+		private screen: MediaObserver ,
 	) {
 		this.page.reset();
 		this.page.init("posts", "created_at", {
 			reverse: true
 		});
+
+		this.cols$ = this.screen.media$
+        .pipe(
+            map((change: MediaChange) => {
+                let cols = 0;
+                switch (change.mqAlias) {
+                    case "xs":
+                        cols = 2; // 'screen and (max-width: 599px)'
+                        break;
+                    case "sm":
+                        cols = 3; // 'screen and (min-width: 600px) and (max-width: 959px)'
+                        break;
+                    case "md":
+                        cols = 3; // 'screen and (min-width: 960px) and (max-width: 1279px)'
+                        break;
+                    case "lg":
+                        cols = 4; // 'screen and (min-width: 1280px) and (max-width: 1919px)'
+                        break;
+                }
+                return cols;
+            }));
+	}
+
+	ngOnInit(): void {
+		//Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+		//Add 'implements OnInit' to the class.
+		this.mode$ = this.store.select('layout').pipe(
+			map( state => state.isListView),
+			// tap(_ => this.cd.detectChanges())
+		);
+
+		// this.isSearchOpened$ = this.store.select('layout').pipe(
+		// 	map(state => state.isSearchOpened)
+		// )
 	}
 
 	nextBatch() {

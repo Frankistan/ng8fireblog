@@ -4,10 +4,11 @@ import { AuthService } from '@app/shared';
 import { Observable, from } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { AuthActionTypes, LogInSuccess,  LogIn, SetAuthenticatedUser } from '../actions/auth.actions';
-import { switchMap, map, catchError, mergeMap } from 'rxjs/operators';
+import { switchMap, map, catchError, mergeMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { User } from '@app/models/user';
 import { SetSettings, SetFirebaseError, UnsetFirebaseError } from '../actions/layout.actions';
+import { Router } from '@angular/router';
 
 
 @Injectable()
@@ -16,6 +17,7 @@ export class AuthEffects {
 	constructor(
 		private actions$: Actions,
 		private auth: AuthService,
+		private _rtr: Router,
 	) { }
 
 	@Effect()
@@ -29,6 +31,7 @@ export class AuthEffects {
 						new UnsetFirebaseError(),
 						new LogInSuccess()
 					]),
+					tap(_ => this._rtr.navigate(["/posts"])),
 					catchError(error => of(new SetFirebaseError(error.code)))
 				)
 		));

@@ -3,7 +3,6 @@ import { Routes, RouterModule } from "@angular/router";
 import { AuthComponent } from "./auth/auth.component";
 import { FiltersComponent } from "./layout/filters/filters.component";
 import { ProfileComponent } from "./profile/profile.component";
-import { SearchbarComponent } from "./layout/searchbar/searchbar.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { WelcomeComponent } from "./welcome/welcome.component";
 //GUARDS
@@ -64,12 +63,6 @@ const routes: Routes = [
 		path: "filters",
 		component: FiltersComponent,
 		outlet: "filtersPopup"
-	},
-	{
-		path: "search",
-		component: SearchbarComponent,
-		canActivate: [AuthGuard],
-		outlet: "search"
 	},
 	{
 		path: "posts",

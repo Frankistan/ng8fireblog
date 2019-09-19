@@ -19,6 +19,10 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+.mat-tooltip.tooltip {
+	font-size: 0.9rem;
+}
+
 mat-sidenav-container {
     height: 100%;
     width: 100%;
@@ -39,12 +43,9 @@ mat-sidenav-container {
         width: 100% !important;
     }
 
-    .mat-tooltip.tooltip {
-        font-size: 0.9rem;
-    }
 }
 
-@media only screen and (max-width: 600px) {
+@media (max-width: 600px) {
     .mat-tooltip.tooltip {
         font-size: 0.7rem;
     }

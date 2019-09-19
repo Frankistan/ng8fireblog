@@ -11,7 +11,8 @@ import { map } from "rxjs/operators";
     styleUrls: ["./grid-view.component.css"]
 })
 export class GridViewComponent implements OnInit{
-    @Input() data$: Observable<any>;
+    @Input() post: any;
+    @Input() index: any;
 
     rowHeight: string = "240px";
 	cols$: Observable<number>;

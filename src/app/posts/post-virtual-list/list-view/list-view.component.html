@@ -1,0 +1,4 @@
+<mat-list-item *ngFor="let post of (data$ | async); let i = index">
+	<app-post-element [index]="i" [post]="post">
+	</app-post-element>
+</mat-list-item>

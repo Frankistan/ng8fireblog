@@ -1,66 +1,33 @@
-<ng-container>
-    <cdk-virtual-scroll-viewport
-        fxLayoutAlign="center"
-        fxLayout="column"
-        #viewport
-        [ngClass]="{ 'content-xsmall': isMobile$ | async }"
-        *ngIf="(page.data | async) as posts"
-        itemSize="95"
-        (scrolledIndexChange)="nextBatch()">
-        <mat-list-item
-            *cdkVirtualFor="
-                let post of posts;
-                let i = index;
-                trackBy: trackByIdx">
-            <mat-card
-                class="animated slideInUp"
-                fxFlex.sm="85"
-                fxFlex.gt-sm="75">
-                <a
-                    class="anchor-list-element"
-                    [routerLink]="['/posts', post.id]">
-                    <div
-                        fxLayoutAlign="start center"
-                        fxLayout="row">
-                        <div 
-                            fxLayoutAlign="start center"
-                            fxLayout="column">
-                            <ngx-avatar size="52" fxFlex 
-                                [ngClass]="{'grid-view': !(core.isListView|async)}" 
-                                [name]="post.title?.split(' ', 2).join(' ')"
-                                [round]="core.isListView|async">
-                            </ngx-avatar>
-                        </div>
-                        <div 
-                            fxLayoutAlign="start start"
-                            fxLayout="column">
-                            <h4 class="app-line">
-                                #{{ post.id + " - " + post.title }}
-                            </h4>
-                            <p class="app-line">
-                                <mat-icon class="custom-icon">access_time</mat-icon>
-                                <time class="margin-right-1">{{
-                                    post.created_at * 1000 | amDateFormat: "DD-MM-YYYY HH:mm"
-                                }}</time>
-                                <mat-icon class="custom-icon">person</mat-icon>
-                                <span class="margin-right-1">
-                                    {{ post.authorName }}
-                                </span>
-                            </p>
-                        </div>                      
-                    </div>
-                </a>
-            </mat-card>
-        </mat-list-item>
-        <mat-progress-bar
-            *ngIf="(page.loading | async)"
-            color="primary"
-            mode="indeterminate"
-            style="margin-top: 1rem;">
-        </mat-progress-bar>
-        <app-post-empty></app-post-empty>
-    </cdk-virtual-scroll-viewport>
-    <router-outlet name="filtersPopup"></router-outlet>
-    <fab-create-post></fab-create-post>
-    <fab-scroll-to-top [viewport]="virtualViewport"></fab-scroll-to-top>
-</ng-container>
+<ng-container *ngIf="mode$|async; then list else grid"></ng-container>
+<ng-template #list>
+	<cdk-virtual-scroll-viewport [ngClass]="{ 'content-xsmall': isMobile$ | async }" *ngIf="(page.data | async) as posts" fxLayout="column" #viewport fxLayoutAlign="center" itemSize="95" (scrolledIndexChange)="nextBatch()">
+		<div fxLayoutAlign="center" fxLayout="column">
+			<mat-list-item *cdkVirtualFor="
+			let post of posts;
+			let i = index;
+			trackBy: trackByIdx">
+				<app-post-element [index]="i" [post]="post">
+				</app-post-element>
+			</mat-list-item>
+			<mat-progress-bar *ngIf="(page.loading | async)" color="primary" mode="indeterminate" style="margin-top: 1rem;">
+			</mat-progress-bar>
+		</div>
+	</cdk-virtual-scroll-viewport>
+</ng-template>
+<ng-template #grid>
+	<cdk-virtual-scroll-viewport [ngClass]="{ 'content-xsmall': isMobile$ | async }" *ngIf="(page.data | async) as posts" fxLayout="column" #viewport fxLayoutAlign="center" itemSize="95" (scrolledIndexChange)="nextBatch()">
+		<mat-grid-list [rowHeight]="rowHeight" cols="{{ cols$|async }}" gutterSize="4px">
+			<mat-grid-tile *cdkVirtualFor="let post of posts;let i = index;trackBy: trackByIdx" [routerLink]="['/posts', post.id]">
+				<app-grid-view [index]="i" [post]="post"></app-grid-view>
+			</mat-grid-tile>
+		</mat-grid-list>
+		<mat-progress-bar *ngIf="(page.loading | async)" color="primary" mode="indeterminate" style="margin-top: 1rem;">
+		</mat-progress-bar>
+	</cdk-virtual-scroll-viewport>
+</ng-template>
+
+<app-post-empty *ngIf="(page.done | async)"></app-post-empty>
+<router-outlet name="filtersPopup"></router-outlet>
+<fab-create-post *ngIf="!(isSearchOpened$|async)"></fab-create-post>
+<!-- <fab-create-post ></fab-create-post> -->
+<fab-scroll-to-top [viewport]="virtualViewport"></fab-scroll-to-top>

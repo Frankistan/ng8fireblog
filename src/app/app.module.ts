@@ -30,7 +30,6 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { FiltersComponent } from "./layout/filters/filters.component";
 import { NavbarComponent } from "./layout/navbar/navbar.component";
 import { ProfileComponent } from "./profile/profile.component";
-import { SearchbarComponent } from "./layout/searchbar/searchbar.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { SidenavContentComponent } from "./layout/sidenav/sidenav-content/sidenav-content.component";
 import { SidenavHeaderComponent } from "./layout/sidenav/sidenav-header/sidenav-header.component";
@@ -57,6 +56,8 @@ import {
 } from "./shared";
 import { ProfileEmailComponent } from './profile/profile-email/profile-email.component';
 import { ProfileSocialComponent } from './profile/profile-social/profile-social.component';
+import { MainBarComponent } from './layout/navbar/main-bar/main-bar.component';
+import { SearchbarComponent } from './layout/navbar/searchbar/searchbar.component';
 
 
 @NgModule({
@@ -83,6 +84,7 @@ import { ProfileSocialComponent } from './profile/profile-social/profile-social.
         WelcomeComponent,
         ProfileEmailComponent,
         ProfileSocialComponent,
+        MainBarComponent,
     ],
     imports: [
 		AppRoutingModule,

@@ -1,7 +1,7 @@
 <mat-toolbar  class="mat-elevation-z6">
-    <button color="primary" style="align-self: center;" mat-icon-button  (click)="close()">
+    <a color="primary" style="align-self: center;" mat-icon-button  [routerLink]="'/posts'">
         <mat-icon>arrow_back</mat-icon>
-    </button>
+    </a>
     <form [formGroup]="searchForm" novalidate autocomplete="off">
         <mat-form-field color="primary" fxFlex="100" class="search-form-field" floatLabel="never">
             <input type="text" 

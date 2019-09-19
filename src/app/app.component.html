@@ -10,7 +10,7 @@
 		<app-sidenav-content ></app-sidenav-content>
 	</mat-sidenav>
 	<mat-sidenav-content class="sidenav-content">
-		<app-navbar [drawer]="drawer" ></app-navbar>
+		<app-navbar  [drawer]="drawer" ></app-navbar>		
 		<app-spinner *ngIf="isLoading$|async"></app-spinner>
 		<section class="content">
 			<router-outlet></router-outlet>

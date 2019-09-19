@@ -3,10 +3,7 @@ import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import {
 	Router,
 	ActivatedRoute,
-	NavigationEnd,
-	NavigationStart,
-	NavigationCancel,
-	NavigationError
+	NavigationEnd
 } from "@angular/router";
 import { Title } from "@angular/platform-browser";
 import { MatSidenav } from "@angular/material";
@@ -15,11 +12,11 @@ import { Observable, merge, Subject } from "rxjs";
 import { map, filter, mergeMap, tap, takeUntil } from "rxjs/operators";
 import { environment } from "@env/environment";
 import { Store } from "@ngrx/store";
-import { GeolocationService, I18nService, AuthService, CoreService, NotificationService } from "./shared";
 import * as fromApp from "@app/store/reducers/app.reducer";
 import * as fromLayout from "@app/store/actions/layout.actions";
 import { AppState } from "@app/store/reducers/app.reducer";
 import { SetAuthenticatedUser } from "./store/actions/auth.actions";
+import { GeolocationService, I18nService, NotificationService, AuthService } from './shared';
 
 
 @Component({
@@ -28,7 +25,7 @@ import { SetAuthenticatedUser } from "./store/actions/auth.actions";
 	styleUrls: ["./app.component.css"]
 })
 export class AppComponent implements OnInit, OnDestroy {
-	@ViewChild("drawer",{static: false}) drawer: MatSidenav;
+	@ViewChild("drawer", { static: false }) drawer: MatSidenav;
 
 	isMobile$: Observable<boolean> = this._bpo
 		.observe(Breakpoints.XSmall)
@@ -54,7 +51,6 @@ export class AppComponent implements OnInit, OnDestroy {
 		private _title: Title,
 		private _trans: TranslateService,
 		public auth: AuthService,
-		public core: CoreService,
 	) {
 		// THEME CENTER
 		this.isDarkTheme$ = this.store.select('layout')
@@ -71,9 +67,10 @@ export class AppComponent implements OnInit, OnDestroy {
 				map(state => state.error),
 				filter(error => error != null),
 				takeUntil(this.destroy)
-			).subscribe(error => {this._ntf.open("toast.firebase." + error, "toast.close");
-			this.store.dispatch(new fromLayout.UnsetFirebaseError());
-		});
+			).subscribe(error => {
+				this._ntf.open("toast.firebase." + error, "toast.close");
+				this.store.dispatch(new fromLayout.UnsetFirebaseError());
+			});
 
 		// GET USER LOCATION ON APP INIT
 		this._geo.getCurrentPosition()
@@ -82,25 +79,7 @@ export class AppComponent implements OnInit, OnDestroy {
 				this._geo.setPosition = position.coords;
 			});
 
-		// LOADING SPINNER CENTER
-		this._rtr.events
-			.pipe(
-				tap(event => {
-					switch (true) {
-						case event instanceof NavigationStart:
-							this.store.dispatch(new fromLayout.StartLoading());
-							break;
 
-						case event instanceof NavigationEnd ||
-							event instanceof NavigationCancel ||
-							event instanceof NavigationError:
-							this.store.dispatch(new fromLayout.StopLoading());
-							break;
-					}
-				}),
-				takeUntil(this.destroy)
-			)
-			.subscribe();
 
 		this.auth.user
 			.pipe(

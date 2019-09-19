@@ -31,6 +31,7 @@ export class SettingsComponent implements  OnDestroy {
 				takeUntil(this._destroy)
 			)
 			.subscribe(layout => {
+				console.log('lay:',layout);
 				this.settingsForm.patchValue(layout);
 			});
 
@@ -49,6 +50,8 @@ export class SettingsComponent implements  OnDestroy {
 	// }
 
 	save() {
+		debugger
+		console.log('sett:',this.settingsForm.value);
 		this.settingsService.save(this.settingsForm.value, this.user);
 	}
 

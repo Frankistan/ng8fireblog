@@ -2,6 +2,7 @@ import { Routes } from "@angular/router";
 import { extract } from "@app/shared/services/i18n.service";
 import { PostFormComponent, PostShowComponent, PostVirtualListComponent } from ".";
 import { DiscardChangesGuard } from "@app/shared/guards/discard-changes.guard";
+import { AuthGuard } from '@app/shared/guards/auth.guard';
 
 export const postsRoutes: Routes = [
 	{
@@ -25,6 +26,7 @@ export const postsRoutes: Routes = [
 			}
 		}
 	},
+	
 	{
 		path: ":id",
 		component: PostShowComponent,
@@ -45,5 +47,15 @@ export const postsRoutes: Routes = [
 				value: "edit"
 			}
 		}
-	}
+	},
+	{
+		path: 'search', 
+		component: PostVirtualListComponent,
+		data: {
+			title: extract("posts.search"),
+			animation: {
+				value: "search"
+			}
+		}
+	},
 ];

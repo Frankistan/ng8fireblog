@@ -41,7 +41,7 @@ export class PaginationService {
             orderBy,
             filter: null,
             search: null,
-            limit: 10,
+            limit: 12,
             prepend: false,
             reverse: false,
             ...opts

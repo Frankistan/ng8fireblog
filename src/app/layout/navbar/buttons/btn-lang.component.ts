@@ -21,17 +21,17 @@ import { User } from "@app/models/user";
         >
             <mat-icon>language</mat-icon>
         </button>
-        <mat-menu #langMenu="matMenu">
-            <button
-                mat-menu-item
-                *ngFor="let language of languages"
-                (click)="setLanguage(language)"
-            >
-                <img
-                    class="flag flag-{{ language.split('-')[1].toLocaleLowerCase() }}"
-                />
-                {{ language.split("-")[1] == "ES" ? "Español" : "English" }}
-            </button>
+		<mat-menu #langMenu="matMenu">
+			<ng-template matMenuContent>
+				<button
+					mat-menu-item
+					*ngFor="let language of languages"
+					(click)="setLanguage(language)">
+					<img
+						class="flag flag-{{ language.split('-')[1].toLocaleLowerCase() }}"/>
+					{{ language.split("-")[1] == "ES" ? "Español" : "English" }}
+				</button>
+			</ng-template>
         </mat-menu>
     `
 })

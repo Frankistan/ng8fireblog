@@ -12,7 +12,8 @@ import { SetSearchbarOpenStatus } from "@app/store/actions/layout.actions";
             mat-icon-button
             matTooltip="{{ 'tooltips.search' | translate }}"
             [matTooltipClass]="'tooltip'"
-            (click) ="open()"
+		
+			[routerLink]="'/posts/search'"
         >
             <mat-icon>search</mat-icon>
         </a>
@@ -27,6 +28,6 @@ export class BtnSearchComponent {
 
     open(){
         this.store.dispatch(new SetSearchbarOpenStatus(true));
-		this._rtr.navigate([{ outlets: { search: ['search'] } }]);
+		// this._rtr.navigate([{ outlets: { search: ['search'] } }]);
     }
 }
