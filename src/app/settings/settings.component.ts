@@ -50,7 +50,7 @@ export class SettingsComponent implements  OnDestroy {
 	// }
 
 	save() {
-		debugger
+		
 		console.log('sett:',this.settingsForm.value);
 		this.settingsService.save(this.settingsForm.value, this.user);
 	}

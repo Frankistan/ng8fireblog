@@ -9,7 +9,7 @@ import { environment } from '@env/environment';
 import { LayoutEffects } from './effects/layout.effects';
 import { PostsEffects } from './effects/posts.effects';
 
-export const effectsArr:any[] = [
+export const effectsArr: any[] = [
 	AuthEffects,
 	LayoutEffects,
 	PostsEffects
@@ -17,16 +17,22 @@ export const effectsArr:any[] = [
 
 
 @NgModule({
-  declarations: [],
-  imports: [
-	CommonModule,
-	EffectsModule.forRoot(effectsArr),
-	StoreModule.forRoot(reducers, { metaReducers }),
-	// Following import tell the application not to work with the store-devtools if in production
-    !environment.production ? StoreDevtoolsModule.instrument({
-		maxAge: 25, // Retains last 25 states
-		logOnly: environment.production, // Restrict extension to log-only mode
-	}) : [] 
-  ]
+	declarations: [],
+	imports: [
+		CommonModule,
+		EffectsModule.forRoot(effectsArr),
+		StoreModule.forRoot(reducers, {
+			runtimeChecks: {
+				strictStateImmutability: true,
+				strictActionImmutability: true
+			},
+			metaReducers
+		}),
+		// Following import tell the application not to work with the store-devtools if in production
+		!environment.production ? StoreDevtoolsModule.instrument({
+			maxAge: 25, // Retains last 25 states
+			logOnly: environment.production, // Restrict extension to log-only mode
+		}) : []
+	]
 })
 export class AppStoreModule { }
