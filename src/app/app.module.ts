@@ -17,7 +17,7 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { ImageCropperModule } from "ngx-image-cropper";
 import { MomentModule } from "ngx-moment";
 import { NgxCaptchaModule } from "ngx-captcha";
-import { ScrollTrackerModule } from "@nicky-lenaers/ngx-scroll-tracker";
+// import { ScrollTrackerModule } from "@nicky-lenaers/ngx-scroll-tracker";
 //COMPONENTS
 import { AppComponent } from "./app.component";
 import { BtnFilterComponent } from "@app/layout/navbar/buttons/btn-filter/btn-filter.component";
@@ -105,7 +105,7 @@ import { SearchbarComponent } from './layout/navbar/searchbar/searchbar.componen
         MomentModule,
         NgxCaptchaModule,
         ReactiveFormsModule,
-        ScrollTrackerModule.forRoot(),     
+        // ScrollTrackerModule.forRoot(),     
     ],
     providers: [
         AuthService,
