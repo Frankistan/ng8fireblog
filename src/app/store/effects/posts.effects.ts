@@ -47,13 +47,12 @@ export class PostsEffects {
 	loadPost: Observable<Action> = this.actions$.pipe(
 		ofType<LoadPost>(PostActionTypes.LOAD_POST),
 		map((action: LoadPost) => action.payload),
-		switchMap(id =>{
-			return this.postSVC.read(id)
-				.pipe(
-					tap(post => console.log('post: ', post)),
-					map(post => new LoadPostSuccess(post)),
-					catchError(error => of(new SetFirebaseError(error.code)))
-				);
-		}));
+		switchMap(id =>
+			this.postSVC.read(id).pipe(
+				tap(post => console.log('post: ', post)),
+				map(post => new LoadPostSuccess(post)),
+				catchError(error => of(new SetFirebaseError(error.code)))
+			)
+		));
 
 }

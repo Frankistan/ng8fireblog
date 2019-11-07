@@ -152,7 +152,7 @@ export class AuthService {
 		return this._afAuth.authState.pipe(
 			switchMap((fUser: firebase.User) => {
 				if (!fUser) {
-					// this._rtr.navigate(["/auth/login"]);
+					this._rtr.navigate(["/auth/login"]);
 					return of(null);
 				}
 

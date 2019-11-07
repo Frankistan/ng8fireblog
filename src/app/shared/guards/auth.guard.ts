@@ -47,7 +47,7 @@ export class AuthGuard implements CanActivate, CanLoad {
 
 		return this._auth.isAuthenticated.pipe(
 			map(authenticated => {
-				
+
 				if (!authenticated) {
 					this._ntf.open('toast.server.access_denied', 'toast.close', 1500);
 					this._rtr.navigate(['/auth/login']);
