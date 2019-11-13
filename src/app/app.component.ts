@@ -1,22 +1,19 @@
 import { Component, ViewChild, OnInit, OnDestroy } from "@angular/core";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
-import {
-	Router,
-	ActivatedRoute,
-	NavigationEnd
-} from "@angular/router";
+import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { Title } from "@angular/platform-browser";
 import { MatSidenav } from "@angular/material";
 import { TranslateService } from "@ngx-translate/core";
 import { Observable, merge, Subject } from "rxjs";
-import { map, filter, mergeMap, tap, takeUntil } from "rxjs/operators";
+import { map, filter, mergeMap, takeUntil, tap } from "rxjs/operators";
 import { environment } from "@env/environment";
 import { Store } from "@ngrx/store";
-import * as fromApp from "@app/store/reducers/app.reducer";
-import * as fromLayout from "@app/store/actions/layout.actions";
+import * as fromAuth from "@app/store/reducers/auth.reducer";
 import { AppState } from "@app/store/reducers/app.reducer";
-import { SetAuthenticatedUser } from "./store/actions/auth.actions";
-import { GeolocationService, I18nService, NotificationService, AuthService } from './shared';
+import {  I18nService,  AuthService } from './shared';
+import { AppGetLocation } from './store/actions/layout.actions';
+import { getIsDarkTheme } from '@app/store/reducers/layout.reducer';
+
 
 
 @Component({
@@ -44,55 +41,55 @@ export class AppComponent implements OnInit, OnDestroy {
 		private store: Store<AppState>,
 		private _aRoute: ActivatedRoute,
 		private _bpo: BreakpointObserver,
-		private _geo: GeolocationService,
 		private _i18n: I18nService,
-		private _ntf: NotificationService,
 		private _rtr: Router,
 		private _title: Title,
 		private _trans: TranslateService,
 		public auth: AuthService,
 	) {
-		// THEME CENTER
-		this.isDarkTheme$ = this.store.select('layout')
-			.pipe(
-				map(state => state.isDarkTheme)
-			);
 
-		this.isAuthenticated$ = this.store.select(fromApp.getIsAuth);
-		this.isLoading$ = this.store.select(fromApp.getIsLoading);
+		this.isDarkTheme$ = this.store.select(getIsDarkTheme);
+		this.isAuthenticated$ = this.store.select(fromAuth.getIsAuth);
+
+		// this.isLoading$ = this.store.select(fromApp.getIsLoading);
 
 		// ERRORS CENTER
-		this.store.select('layout')
-			.pipe(
-				map(state => state.error),
-				filter(error => error != null),
-				takeUntil(this.destroy)
-			).subscribe(error => {
-				this._ntf.open("toast.firebase." + error, "toast.close");
-				this.store.dispatch(new fromLayout.UnsetFirebaseError());
-			});
+		// this.store.select('layout')
+		// 	.pipe(
+		// 		map(state => state.error),
+		// 		filter(error => error != null),
+		// 		takeUntil(this.destroy)
+		// 	).subscribe(error => {
+		// 		this._ntf.open("toast.firebase." + error, "toast.close");
+		// 		// this.store.dispatch(new fromLayout.UnsetFirebaseError());
+		// 	});
 
 		// GET USER LOCATION ON APP INIT
-		this._geo.getCurrentPosition()
-			.pipe(takeUntil(this.destroy))
-			.subscribe(position => {
-				this._geo.setPosition = position.coords;
-			});
+		// this._geo.getCurrentPosition()
+		// 	.pipe(takeUntil(this.destroy))
+		// 	.subscribe(position => {
+		// 		this._geo.setPosition = position.coords;
+		// 		console.log('coords: ', position.coords);
+		// 		this.store.dispatch(new AppSetLocation());
+		// 	});
 
 
 
-		this.auth.user
-			.pipe(
-				filter(user => user != null),
-				tap(user => {
-					this.store.dispatch(new SetAuthenticatedUser(user))
-				}),
-				takeUntil(this.destroy)
-			)
-			.subscribe();
+		// this.auth.user
+		// 	.pipe(
+		// 		filter(user => user != null),
+		// 		tap(user => {
+		// 			// this.store.dispatch(new SetAuthenticatedUser(user))
+		// 		}),
+		// 		takeUntil(this.destroy)
+		// 	)
+		// 	.subscribe();
 	}
 
 	ngOnInit() {
+
+		this.store.dispatch(new AppGetLocation());
+
 		// Setup translations
 		this._i18n.init(
 			environment.defaultLanguage,

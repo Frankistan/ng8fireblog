@@ -34,7 +34,7 @@ import {
 // Directives & Pipes
 import { FileSizePipe } from '@app/shared/pipes/file-size.pipe';
 import { DropzoneDirective } from '@app/shared/directives/drop-zone.directive';
-import { reducer } from '@app/store/reducers/post.reducer';
+// import { reducer } from '@app/store/reducers/post.reducer';
 
 
 // AoT requires an exported function for factories
@@ -73,7 +73,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 		RouterModule,
 		ScrollingModule,
 		ScrollTrackerModule,
-		StoreModule.forFeature('posts', reducer),
+		// StoreModule.forFeature('posts', reducer),
 		TranslateModule.forChild({
 			loader: {
 				provide: TranslateLoader,

@@ -5,10 +5,11 @@ import { NotificationService, PostsService, PaginationService, CoreService } fro
 import { ConfirmDialog } from '@app/layout/confirm-dialog/confirm-dialog.component';
 import { Subject, Observable } from 'rxjs';
 import { map, takeUntil, tap, filter } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
 import { AppState } from '@app/store/reducers/app.reducer';
-import { SetViewMode } from '@app/store/actions/layout.actions';
-import { State } from '@app/store/reducers/post.reducer';
+import { Store } from '@ngrx/store';
+import { MenuToggleViewMode } from '@app/store/actions/layout.actions';
+import { getMenuViewMode } from '@app/store/reducers/layout.reducer';
+// import { State } from '@app/store/reducers/post.reducer';
 
 @Component({
     selector: 'btn-more',
@@ -26,6 +27,7 @@ export class BtnMoreComponent implements OnDestroy {
     destroy = new Subject<any>();
 	id$: Observable<string>;
 	id:string ='';
+	mode: boolean;
 
     constructor(
         private _page: PaginationService,
@@ -34,14 +36,19 @@ export class BtnMoreComponent implements OnDestroy {
         private _rtr: Router,
         private _dlg: MatDialog,
 		private _core: CoreService,
-		private store: Store<State>
+		private store: Store<AppState>
     ) { 
-		this.id$ = this.store.select('posts').pipe(
-			filter(state => state ? state.post != null: false),
-			map(state => state.post.id),
-			tap( id => console.log('id: ',id)),
-			tap( id => this.id =id)
-			)
+		// this.id$ = this.store.select('posts').pipe(
+		// 	filter(state => state ? state.post != null: false),
+		// 	map(state => state.post.id),
+		// 	tap( id => console.log('id: ',id)),
+		// 	tap( id => this.id =id)
+		// 	)
+	}
+
+	ngOnInit() {
+		this.store.select(getMenuViewMode)
+			.pipe(tap(mode => this.mode = mode));
 	}
 
     orderBy(field: string) {
@@ -78,11 +85,18 @@ export class BtnMoreComponent implements OnDestroy {
         });
     }
 
-    changeView(mode:boolean){
-        this.listView = !!mode;
-		// this._core.isListView.next(this.listView);
-		this.store.dispatch(new SetViewMode(this.listView));
-    }
+    // changeView(mode:boolean){
+    //     this.listView = !!mode;
+	// 	// this._core.isListView.next(this.listView);
+	// 	// this.store.dispatch(new SetViewMode(this.listView));
+	// }
+	
+	changeView(listView:boolean) {
+		if(this.mode != listView) {
+			this.mode = listView;
+			this.store.dispatch(new MenuToggleViewMode(listView));
+		}
+	}
 
     ngOnDestroy(): void {
 		this.destroy.next();

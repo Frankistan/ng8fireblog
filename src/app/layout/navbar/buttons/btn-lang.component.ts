@@ -1,15 +1,15 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { SettingsService, I18nService } from "@app/shared";
+import { Component } from "@angular/core";
+import { I18nService } from "@app/shared";
 import { Store } from "@ngrx/store";
 import { AppState } from "@app/store/reducers/app.reducer";
-import { map, takeUntil } from "rxjs/operators";
-import { Subject } from "rxjs";
-import { User } from "@app/models/user";
+import { map, tap } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { AppSetSettings } from '@app/store/actions/layout.actions';
 
 @Component({
-    selector: "btn-lang",
-    template: `
-        <button fxHide.xs="true" mat-button [matMenuTriggerFor]="langMenu">
+	selector: "btn-lang",
+	template: `
+        <button fxHide.xs="true" mat-button [matMenuTriggerFor]="langMenu" *ngIf="set$ | async">
             {{ 'navbar.language' | translate  }}
         </button>
         <button
@@ -35,44 +35,38 @@ import { User } from "@app/models/user";
         </mat-menu>
     `
 })
-export class BtnLangComponent implements OnDestroy {
-	private _destroy = new Subject<any>();
-	user: User;
+export class BtnLangComponent {
+	settings: { language: string; isDarkTheme: boolean; };
+	set$: Observable<any>;
 
-    constructor(
-        private _settings: SettingsService,
+	constructor(
 		private i18nService: I18nService,
 		private store: Store<AppState>
-    ) {
-		this.store.select('auth')
-		.pipe(
-			map(state => state.user),
-			takeUntil(this._destroy)
-		)
-		.subscribe(user => this.user = user);
+	) {
+		this.set$ = this.store.select('layout').pipe(
+			map(state => {
+				return {
+					language: state.language,
+					isDarkTheme: state.isDarkTheme
+				}
+			}),
+			tap(settings => this.settings = settings)
+		);
 	}
 
-    setLanguage(language: string) {
-        this.i18nService.language = language;
-
-        let settings = {
-            language: language
-        };
-
-        this._settings.save(settings,this.user);
-    }
-
-    get currentLanguage(): string {
-        return this.i18nService.language.split("-")[1] == "ES"
-            ? "Español"
-            : "English";
-    }
-
-    get languages(): any {
-        return this.i18nService.supportedLanguages;
+	setLanguage(language: string) {
+		// this.i18nService.language = language;
+		this.settings.language = language;
+		this.store.dispatch(new AppSetSettings(this.settings));
 	}
-	
-	ngOnDestroy(): void {
-        this._destroy.next();
-    }
+
+	get currentLanguage(): string {
+		return this.i18nService.language.split("-")[1] == "ES"
+			? "Español"
+			: "English";
+	}
+
+	get languages(): any {
+		return this.i18nService.supportedLanguages;
+	}
 }

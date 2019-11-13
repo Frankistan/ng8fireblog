@@ -4,7 +4,8 @@ import { AuthService, I18nService } from '@app/shared';
 import { environment } from '@env/environment';
 import { Store } from '@ngrx/store';
 import { AppState } from '@app/store/reducers/app.reducer';
-import { LogIn } from '@app/store/actions/auth.actions';
+// import { LogIn, Login } from '@app/store/actions/auth.actions';
+import {  Login } from '@app/store/actions/auth.actions';
 
 @Component({
 	selector: 'app-login',
@@ -43,7 +44,7 @@ export class LoginComponent implements OnInit {
 	}
 
 	login() {
-		this.store.dispatch(new LogIn(this.loginForm.value));
+		this.store.dispatch(new Login(this.loginForm.value));
 	}
 
 	socialLogin(provider: string) {

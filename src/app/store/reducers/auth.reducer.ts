@@ -1,5 +1,8 @@
 import { AuthActionTypes, AuthActions } from '../actions/auth.actions';
 import { User } from '@app/models/user';
+import { createSelector, createFeatureSelector } from '@ngrx/store';
+
+//import or declare state
 
 export interface State {
 	// is a user authenticated?
@@ -8,67 +11,92 @@ export interface State {
 	user: User | null;
 	// error 
 	error: any;
+	loading: boolean;
 }
 
 export const initialState: State = {
 	isAuthenticated: false,
 	user: null,
-	error: null
+	error: null,
+	loading: false
 };
-
 
 export function reducer(state = initialState, action: AuthActions): State {
 	switch (action.type) {
-		case AuthActionTypes.SET_CURRENT_USER:
-			return {
-				...state,
-				user: action.payload,
-				isAuthenticated: true
-			};
-		case AuthActionTypes.SET_AUTHENTICATED:
-			return {
-				...state,
-				isAuthenticated: true
-			};
-		case AuthActionTypes.SET_UNAUTHENTICATED:
-			return {
-				...state,
-				isAuthenticated: false,
-				error: null
-			};
+		case AuthActionTypes.LOGIN: {
+			return { ...state, loading: true };
+		}
+
 		case AuthActionTypes.LOGIN_SUCCESS: {
 			return {
 				...state,
 				isAuthenticated: true,
-				error: null
+				user: { ...action.payload },
+				loading: false
 			};
 		}
-		// case AuthActionTypes.LOGIN_FAILURE: {
-		// 	return {
-		// 		...state,
-		// 		error: action.payload
-		// 	};
-		// }
-		case AuthActionTypes.SIGNUP_SUCCESS: {
+
+		case AuthActionTypes.LOGIN_FAILURE: {
+			return {
+				...state,
+				isAuthenticated: false,
+				user: null,
+				error: { ...action.payload },
+				loading: false
+			};
+		}
+
+		case AuthActionTypes.LOGOUT: {
+			return {
+				...state,
+				loading: true
+			};
+		}
+
+		case AuthActionTypes.LOGOUT_SUCCESS: {
+			return {
+				...initialState
+			};
+		}
+
+		case AuthActionTypes.LOGOUT_FAILURE: {
+			return {
+				...state,
+				error: { ...action.payload },
+				loading: false
+			};
+		}
+
+		case AuthActionTypes.AUTH_USER: {
+			//add your code
 			return {
 				...state,
 				isAuthenticated: true,
-				user: action.payload, 
-				error: null
+				user: { ...action.payload },
+				loading: false
 			};
 		}
-		case AuthActionTypes.SIGNUP_FAILURE: {
+
+		case AuthActionTypes.NOT_AUTH_USER: {
 			return {
 				...state,
-				error: action.payload
+				isAuthenticated: false,
+				user: null,
+				error: { ...action.payload },
+				loading: false
 			};
 		}
-		case AuthActionTypes.LOGOUT: {
-			return initialState;
-		}
+		
+
 		default:
 			return state;
 	}
 }
 
-export const getIsAuthenticated = (state: State) => state.isAuthenticated;
+export const getAuthState = createFeatureSelector<State>('auth');
+
+export const getIsAuth =
+	createSelector(getAuthState, (state: State) => state.isAuthenticated);
+
+export const getAuthUser = 
+	createSelector(getAuthState, (state: State) => state.user);

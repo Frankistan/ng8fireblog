@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { Store } from "@ngrx/store";
 import { AppState } from '@app/store/reducers/app.reducer';
+import { GetUser } from '@app/store/actions/auth.actions';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanLoad {
@@ -20,6 +21,7 @@ export class AuthGuard implements CanActivate, CanLoad {
 		next: ActivatedRouteSnapshot,
 		state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 		return this._auth.isAuthenticated.pipe(map<boolean, boolean>((isAuthenticated: boolean) => {
+			
 			if (!isAuthenticated) {
 				this._ntf.open('toast.server.access_denied', 'toast.close', 1500);
 				this._rtr.navigate(['/auth/login']);
@@ -27,6 +29,7 @@ export class AuthGuard implements CanActivate, CanLoad {
 				// not logged in so redirect to login page with the return url and return false
 				// this._rtr.navigate(['/auth/login'], { queryParams: { returnUrl: state.url } });
 			}
+			this.store.dispatch(new GetUser());
 			return isAuthenticated;
 		}));
 
@@ -52,6 +55,7 @@ export class AuthGuard implements CanActivate, CanLoad {
 					this._ntf.open('toast.server.access_denied', 'toast.close', 1500);
 					this._rtr.navigate(['/auth/login']);
 				}
+				this.store.dispatch(new GetUser());
 				return authenticated;
 			}),
 			take(1)

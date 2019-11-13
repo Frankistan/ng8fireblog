@@ -1,65 +1,75 @@
 import { Action } from '@ngrx/store';
 
+/**
+ * For each action type in an action group, make a simple
+ * enum object for all of this group's action types.
+ */
 export enum LayoutActionTypes {
-	START_LOADING = "[Layout] Start loading",
-	STOP_LOADING = "[Layout] Stop loading",
-	SET_SETTINGS = "[Layout] Set Layout settings",
-	SET_SETTINGS_SUCCESS = "[Layout] Set Layout settings success",
-	SET_FIREBASE_ERROR = "[Layout] Set Firebase Error",
-	UNSET_FIREBASE_ERROR = "[Layout] Unset Firebase Error",
-	SET_VIEW_MODE = "[Layout] Set View mode",
-	SET_SEARCHBAR_OPEN_STATUS = "[Layout] Set Searchbar open status",
-	SET_HAVE_SEARCHED = "[Layout] Set is seaching status"
-}
+	MENU_TOGGLE_VIEW_MODE = "[Menu] Toggle Posts View Mode",
+	MENU_TOOGLE_THEME = "[Menu] Toggle App Theme",
+	APP_SET_SETTINGS = "[App] Set Settings",
+	APP_SET_SETTINGS_SUCCESS = "[App] Set Settings Success",
+	APP_SET_SETTINGS_FAIL = "[App] Set Settings Fail",
+	APP_GET_LOCATION = "[App] Get location",
+	APP_SET_LOCATION_SUCCESS = "[App] Set location success",
+	APP_SET_LOCATION_FAIL = "[App] Set location Fail",
+	SETTINGS_PAGE_SAVE = "[Settings Page] Save",
+};
 
-export class StartLoading implements Action {
-	readonly type = LayoutActionTypes.START_LOADING;
-}
-
-export class StopLoading implements Action {
-	readonly type = LayoutActionTypes.STOP_LOADING;
-}
-
-export class SetViewMode implements Action {
-	readonly type = LayoutActionTypes.SET_VIEW_MODE;
+export class MenuToggleViewMode implements Action {
+	readonly type = LayoutActionTypes.MENU_TOGGLE_VIEW_MODE;
 	constructor(public payload: any) { }
 }
 
-export class SetSearchbarOpenStatus implements Action {
-	readonly type = LayoutActionTypes.SET_SEARCHBAR_OPEN_STATUS;
+export class MenuToggleTheme implements Action {
+	readonly type = LayoutActionTypes.MENU_TOGGLE_VIEW_MODE;
 	constructor(public payload: any) { }
 }
 
-export class SetHaveSearched implements Action {
-	readonly type = LayoutActionTypes.SET_HAVE_SEARCHED;
+export class AppSetSettings implements Action {
+	readonly type = LayoutActionTypes.APP_SET_SETTINGS;
 	constructor(public payload: any) { }
 }
 
-export class SetSettings implements Action {
-	readonly type = LayoutActionTypes.SET_SETTINGS;
+export class AppSetSettingsSuccess implements Action {
+	readonly type = LayoutActionTypes.APP_SET_SETTINGS_SUCCESS;
+	constructor(public payload?: any) { }
+}
+
+export class AppSetSettingsFail implements Action {
+	readonly type = LayoutActionTypes.APP_SET_SETTINGS_FAIL;
+	constructor(public payload?: any) { }
+}
+
+export class AppGetLocation implements Action {
+	readonly type = LayoutActionTypes.APP_GET_LOCATION;
+}
+
+export class AppSetLocationSuccess implements Action {
+	readonly type = LayoutActionTypes.APP_SET_LOCATION_SUCCESS;
+	constructor(public payload?: any) { }
+}
+
+export class AppSetLocationFail implements Action {
+	readonly type = LayoutActionTypes.APP_SET_LOCATION_FAIL;
+	constructor(public payload?: any) { }
+}
+
+export class SettingsPageSave implements Action {
+	readonly type = LayoutActionTypes.SETTINGS_PAGE_SAVE;
 	constructor(public payload: any) { }
 }
 
-export class SetSettingsSuccess implements Action {
-	readonly type = LayoutActionTypes.SET_SETTINGS_SUCCESS;
-}
 
-export class SetFirebaseError implements Action {
-	readonly type = LayoutActionTypes.SET_FIREBASE_ERROR;
-	constructor(public payload: any) { }
-}
 
-export class UnsetFirebaseError implements Action {
-	readonly type = LayoutActionTypes.UNSET_FIREBASE_ERROR;
-}
 
-export type LayoutActions =
-	StartLoading
-	| StopLoading
-	| SetViewMode
-	| SetSearchbarOpenStatus
-	| SetHaveSearched
-	| SetSettings
-	| SetSettingsSuccess
-	| SetFirebaseError
-	| UnsetFirebaseError;
+export type Actions =
+	MenuToggleViewMode
+	| MenuToggleTheme
+	| AppSetSettings
+	| AppSetSettingsSuccess
+	| AppSetSettingsFail
+	| AppGetLocation
+	| AppSetLocationSuccess
+	| AppSetLocationFail
+	| SettingsPageSave;

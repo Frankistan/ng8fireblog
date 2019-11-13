@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '@app/store/reducers/app.reducer';
 import { tap, filter, map, takeUntil } from 'rxjs/operators';
 import { NavigationStart, NavigationEnd, NavigationCancel, NavigationError, Router } from '@angular/router';
-import * as fromLayout from "@app/store/actions/layout.actions";
+// import * as fromLayout from "@app/store/actions/layout.actions";
 
 @Injectable()
 export class CoreService {
@@ -32,13 +32,13 @@ export class CoreService {
 				tap(event => {
 					switch (true) {
 						case event instanceof NavigationStart:
-							this.store.dispatch(new fromLayout.StartLoading());
+							// this.store.dispatch(new fromLayout.StartLoading());
 							break;
 
 						case event instanceof NavigationEnd ||
 							event instanceof NavigationCancel ||
 							event instanceof NavigationError:
-							this.store.dispatch(new fromLayout.StopLoading());
+							// this.store.dispatch(new fromLayout.StopLoading());
 							break;
 					}
 				}),

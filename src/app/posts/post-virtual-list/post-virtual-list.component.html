@@ -6,7 +6,7 @@
 			let post of posts;
 			let i = index;
 			trackBy: trackByIdx">
-				<app-post-element [index]="i" [post]="post">
+				<app-post-element [index]="i" [post]="post" >
 				</app-post-element>
 			</mat-list-item>
 			<mat-progress-bar *ngIf="(page.loading | async)" color="primary" mode="indeterminate" style="margin-top: 1rem;">

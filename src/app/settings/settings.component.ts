@@ -1,22 +1,24 @@
 import { Component, OnDestroy } from "@angular/core";
-import { Subject } from "rxjs";
+import { Subject, Observable } from "rxjs";
 import { FormGroup } from "@angular/forms";
 import { SettingsService, I18nService } from "@app/shared";
-import { takeUntil, map } from "rxjs/operators";
+import { takeUntil, map, tap } from "rxjs/operators";
 import { Store } from "@ngrx/store";
 import { AppState } from "@app/store/reducers/app.reducer";
 import { User } from "@app/models/user";
+import { SettingsPageSave } from '@app/store/actions/layout.actions';
 
 @Component({
 	selector: "app-settings",
 	templateUrl: "./settings.component.html",
 	styleUrls: ["./settings.component.css"]
 })
-export class SettingsComponent implements  OnDestroy {
+export class SettingsComponent implements OnDestroy {
 
 	settingsForm: FormGroup;
 	user: User;
 	private _destroy = new Subject<any>();
+	settings$: Observable<any>;
 
 	constructor(
 		private settingsService: SettingsService,
@@ -26,14 +28,11 @@ export class SettingsComponent implements  OnDestroy {
 
 		this.settingsForm = this.settingsService.form;
 
-		this.store.select('layout')
+		this.settings$ = this.store.select('layout')
 			.pipe(
-				takeUntil(this._destroy)
-			)
-			.subscribe(layout => {
-				console.log('lay:',layout);
-				this.settingsForm.patchValue(layout);
-			});
+				tap(layout => this.settingsForm.patchValue(layout))
+			);
+
 
 		this.store.select('auth')
 			.pipe(
@@ -50,9 +49,12 @@ export class SettingsComponent implements  OnDestroy {
 	// }
 
 	save() {
-		
-		console.log('sett:',this.settingsForm.value);
-		this.settingsService.save(this.settingsForm.value, this.user);
+		const NUser = {
+			...this.user,
+			settings: this.settingsForm.value
+		};
+
+		this.store.dispatch(new SettingsPageSave(NUser));
 	}
 
 	get language(): string {

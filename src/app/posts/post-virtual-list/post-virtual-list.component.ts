@@ -7,6 +7,7 @@ import { map, tap } from "rxjs/operators";
 import { Store } from "@ngrx/store";
 import { MediaObserver , MediaChange } from "@angular/flex-layout";
 import { AppState } from '@app/store/reducers/app.reducer';
+import { getMenuViewMode } from '@app/store/reducers/layout.reducer';
 
 @Component({
 	selector: 'app-post-virtual-list',
@@ -64,13 +65,12 @@ export class PostVirtualListComponent implements OnInit,AfterViewInit{
 	}
 
 	ngOnInit(): void {
-		//Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-		//Add 'implements OnInit' to the class.
-		this.mode$ = this.store.select('layout').pipe(
-			map( state => state.isListView),
-			// tap(_ => this.cd.detectChanges())
-		);
-
+		// this.mode$ = this.store.select('layout').pipe(
+		// 	map( state => state.isListView),
+		// 	// tap(_ => this.cd.detectChanges())
+		// );
+		this.mode$ = this.store.select(getMenuViewMode).pipe(tap(_ => this.cd.detectChanges()));
+		
 		// this.isSearchOpened$ = this.store.select('layout').pipe(
 		// 	map(state => state.isSearchOpened)
 		// )
@@ -101,4 +101,5 @@ export class PostVirtualListComponent implements OnInit,AfterViewInit{
 		this.virtualViewport = this.viewport;
 		this.cd.detectChanges();
 	}
+
 }

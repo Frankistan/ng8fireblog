@@ -1,11 +1,17 @@
 import { Component } from "@angular/core";
-import { AuthService } from "@app/shared";
+import { AppState } from '@app/store/reducers/app.reducer';
+import { Store } from '@ngrx/store';
+import { Logout } from '@app/store/actions/auth.actions';
 
 @Component({
-    selector: "app-sidenav-content",
-    templateUrl: "./sidenav-content.component.html",
-    styleUrls: ["./sidenav-content.component.css"]
+	selector: "app-sidenav-content",
+	templateUrl: "./sidenav-content.component.html",
+	styleUrls: ["./sidenav-content.component.css"]
 })
 export class SidenavContentComponent {
-    constructor(public auth: AuthService) {}
+	constructor(private store: Store<AppState>) { }
+
+	logout() {
+		this.store.dispatch(new Logout());
+	}
 }

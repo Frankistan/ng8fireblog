@@ -4,6 +4,7 @@ import { Store } from "@ngrx/store";
 import { AppState } from "@app/store/reducers/app.reducer";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
+import { getMenuViewMode } from '@app/store/reducers/layout.reducer';
 
 @Component({
     selector: "app-grid-view",
@@ -48,8 +49,6 @@ export class GridViewComponent implements OnInit{
 	}
 	
 	ngOnInit() {
-		this.mode$ = this.store.select('layout').pipe(
-			map( state => state.isListView)
-		);
+		this.mode$ = this.store.select(getMenuViewMode)
 	}
 }

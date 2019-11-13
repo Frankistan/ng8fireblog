@@ -7,10 +7,10 @@ import {
 } from "@angular/forms";
 import { Subject } from "rxjs";
 import { Router } from "@angular/router";
-import { SetPostsFilters } from "@app/store/actions/post.actions";
+// import { SetPostsFilters } from "@app/store/actions/post.actions";
 import { Store } from "@ngrx/store";
-import { State } from "@app/store/reducers/post.reducer";
-import { SetSearchbarOpenStatus, SetHaveSearched } from "@app/store/actions/layout.actions";
+// import { State } from "@app/store/reducers/post.reducer";
+// import { SetSearchbarOpenStatus, SetHaveSearched } from "@app/store/actions/layout.actions";
 import {
 	map,
 	distinctUntilChanged,
@@ -31,7 +31,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
 	constructor(
 		private _fb: FormBuilder,
 		private _rtr: Router,
-		private store: Store<State>
+		// private store: Store<State>
 	) {
 		this.createForm();
 	}
@@ -67,19 +67,19 @@ export class SearchbarComponent implements OnInit, OnDestroy {
 				debounceTime(400),
 				distinctUntilChanged(),
 				map((term: string) => {
-					this.store.dispatch(new SetHaveSearched(true));
+					// this.store.dispatch(new SetHaveSearched(true));
 					term = term.trim().toUpperCase();
 
 					if (term.length < 3) return;
 
-					this.store.dispatch(new SetPostsFilters({
-						collection: "posts",
-						orderBy: "created_at",
-						opts: {
-							search: term,
-							reverse: true
-						}
-					}));
+					// this.store.dispatch(new SetPostsFilters({
+					// 	collection: "posts",
+					// 	orderBy: "created_at",
+					// 	opts: {
+					// 		search: term,
+					// 		reverse: true
+					// 	}
+					// }));
 				}),
 				takeUntil(this.destroy)
 			)
@@ -96,13 +96,13 @@ export class SearchbarComponent implements OnInit, OnDestroy {
 			this.searchForm.dirty &&
 			this.searchForm.touched
 		) {
-			this.store.dispatch(new SetPostsFilters({
-				collection: "posts",
-				orderBy: "created_at",
-				opts: {
-					reverse: true
-				}
-			}));
+			// this.store.dispatch(new SetPostsFilters({
+			// 	collection: "posts",
+			// 	orderBy: "created_at",
+			// 	opts: {
+			// 		reverse: true
+			// 	}
+			// }));
 
 			// this.store.dispatch(new SetHaveSearched(true));
 		}

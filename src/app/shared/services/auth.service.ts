@@ -20,7 +20,7 @@ export class AuthService {
 	private _user$: Observable<User>;
 	private _authStateUser: User;
 	private _pvdr = null;
-	private auth: firebase.auth.Auth = this._afAuth.auth;
+	public auth: firebase.auth.Auth = this._afAuth.auth;
 
 	constructor(
 		private _afAuth: AngularFireAuth,
@@ -41,8 +41,12 @@ export class AuthService {
 	//     }
 	// }  
 
-	async login(email: string, password: string): Promise<firebase.auth.UserCredential> {
-		return await this.auth.signInWithEmailAndPassword(email, password);
+	// async login(email: string, password: string): Promise<firebase.auth.UserCredential> {
+	// 	return await this.auth.signInWithEmailAndPassword(email, password);
+	// }
+
+	async login(credentials): Promise<firebase.auth.UserCredential> {
+		return await this.auth.signInWithEmailAndPassword(credentials.email, credentials.password);
 	}
 
 	async signup(user: User) {
@@ -72,8 +76,26 @@ export class AuthService {
 		}
 	}
 
+	// async logout() {
+	// 	if (!this._authStateUser) return false;
+
+	// 	const data: User = {
+	// 		uid: this._authStateUser.uid,
+	// 		lastSignInLocation: this._loc.position,
+	// 		lastSignInTime: this.timestamp || this._authStateUser.lastSignInTime
+	// 	};
+
+	// 	try {
+	// 		await this.auth.signOut();
+	// 		await this._uMngr.update(data);
+	// 		// this.store.dispatch(new fromAuth.SetUnauthenticated());
+	// 		this._rtr.navigate(["/auth/login"]);
+	// 	} catch (error) {
+	// 		return this.errorHandler(error.code);
+	// 	}
+	// }
+
 	async logout() {
-		if (!this._authStateUser) return false;
 
 		const data: User = {
 			uid: this._authStateUser.uid,
@@ -81,14 +103,9 @@ export class AuthService {
 			lastSignInTime: this.timestamp || this._authStateUser.lastSignInTime
 		};
 
-		try {
 			await this.auth.signOut();
 			await this._uMngr.update(data);
-			this.store.dispatch(new fromAuth.SetUnauthenticated());
-			this._rtr.navigate(["/auth/login"]);
-		} catch (error) {
-			return this.errorHandler(error.code);
-		}
+
 	}
 
 	async resetPassword(email: string) {
@@ -189,12 +206,13 @@ export class AuthService {
 	}
 
 	get isAuthenticated(): Observable<boolean> {
+		console.log('paso por authSVC isAuthenticated:');
 		return this._afAuth.authState.pipe(
 			tap((user: firebase.User) => {
 				if (user && user != undefined) {
-					this.store.dispatch(new fromAuth.SetAuthenticated());
+					// this.store.dispatch(new fromAuth.SetAuthenticated());
 				} else {
-					this.store.dispatch(new fromAuth.SetUnauthenticated());
+					// this.store.dispatch(new fromAuth.SetUnauthenticated());
 				}
 			}),
 			map<firebase.User, boolean>((user: firebase.User) => {
